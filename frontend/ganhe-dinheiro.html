@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganhe Dinheiro - 860Pub</title>
+    
+   <!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+
+<style>
+    #loader {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #fff; display: flex; justify-content: center; align-items: center;
+        z-index: 9999;
+    }
+    .spinner-border { width: 3rem; height: 3rem; }
+    :root {
+        --primary-color: #2c5aa0;
+        --secondary-color: #28a745;
+        --accent-color: #ffc107;
+        --dark-color: #333;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+    }
+    
+    .navbar .nav-link.active {
+        color: var(--primary-color) !important;
+        font-weight: 600;
+    }
+    
+    .page-header {
+        background: linear-gradient(135deg, rgba(44, 90, 160, 0.9), rgba(40, 167, 69, 0.8)), url('https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2232&q=80') no-repeat center center;
+        background-size: cover;
+        padding: 80px 0;
+        color: white;
+        text-align: center;
+    }
+
+    .page-header h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+    }
+
+    .section-title {
+        font-weight: 700; color: var(--dark-color); margin-bottom: 30px; position: relative; padding-bottom: 15px;
+    }
+    .section-title::after {
+        content: ''; position: absolute; display: block; width: 60px; height: 4px; background: var(--primary-color); bottom: 0; left: 50%; transform: translateX(-50%);
+    }
+
+    .inquerito-container, .investment-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2.5rem;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .form-label { font-weight: 600; }
+    .form-check-label { margin-left: 0.5rem; }
+</style>
+</head>
+<body style="display: none;">
+
+   <div id="loader">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+    </div>
+</div>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html" style="font-size: 1.8rem; color: var(--primary-color);"><i class="fas fa-bullhorn me-2"></i>860Pub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre Nós</a></li>
+                <li class="nav-item"><a class="nav-link" href="parcerias.html">Parcerias Comerciais</a></li>
+                <li class="nav-item"><a class="nav-link active" href="ganhe-dinheiro.html">Ganhe Dinheiro</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle me-1"></i><span id="userName">Usuário</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarUserDropdown">
+                        <li><a class="dropdown-item" href="meu-perfil.html">Meu Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="logoutButton">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Header -->
+<header class="page-header">
+    <div class="container">
+        <h1>Transforme Seu Tempo em Dinheiro</h1>
+        <p class="lead">Participe de inquéritos rápidos para aumentar seus rendimentos.</p>
+    </div>
+</header>
+
+<!-- Inquérito Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Inquérito Remunerado</h2>
+            <p class="lead text-muted" id="inquerito-subtitle">Responda 5 perguntas e ganhe 25 MZN na hora.</p>
+        </div>
+
+        <div class="inquerito-container mx-auto" style="max-width: 700px;">
+            <!-- Formulário do Inquérito -->
+            <div id="inquerito-form" style="display: none;">
+                <form id="surveyForm">
+                    <div class="mb-4"><label class="form-label">1. Você usa redes sociais?</label><div><input type="radio" class="form-check-input" name="usa_redes" id="usa_sim" value="sim" required><label class="form-check-label" for="usa_sim">Sim</label></div><div><input type="radio" class="form-check-input" name="usa_redes" id="usa_nao" value="nao"><label class="form-check-label" for="usa_nao">Não</label></div></div>
+                    <div class="mb-4"><label class="form-label">2. Qual(is) das redes sociais você mais usa?</label><div><input type="checkbox" class="form-check-input" name="redes_usadas" value="Facebook"><label class="form-check-label">Facebook</label></div><div><input type="checkbox" class="form-check-input" name="redes_usadas" value="Instagram"><label class="form-check-label">Instagram</label></div><div><input type="checkbox" class="form-check-input" name="redes_usadas" value="TikTok"><label class="form-check-label">TikTok</label></div><div><input type="checkbox" class="form-check-input" name="redes_usadas" value="YouTube"><label class="form-check-label">YouTube</label></div></div>
+                    <div class="mb-4"><label for="tempo_uso" class="form-label">3. Há quanto tempo você usa a sua principal rede social?</label><select id="tempo_uso" class="form-select" required><option value="" selected disabled>Selecione uma opção</option><option value="menos_1_ano">Menos de 1 ano</option><option value="1_a_3_anos">Entre 1 e 3 anos</option><option value="3_a_5_anos">Entre 3 e 5 anos</option><option value="mais_5_anos">Mais de 5 anos</option></select></div>
+                    <div class="mb-4"><label class="form-label">4. Você já ganhou dinheiro online?</label><div><input type="radio" class="form-check-input" name="ganhou_dinheiro" id="ganhou_sim" value="sim" required><label class="form-check-label" for="ganhou_sim">Sim</label></div><div><input type="radio" class="form-check-input" name="ganhou_dinheiro" id="ganhou_nao" value="nao"><label class="form-check-label" for="ganhou_nao">Não</label></div></div>
+                    <div class="mb-4"><label for="regiao" class="form-label">5. Qual é a sua província?</label><select id="regiao" class="form-select" required><option value="" selected disabled>Selecione sua província</option><option value="maputo_cidade">Maputo (Cidade)</option><option value="maputo_provincia">Maputo (Província)</option><option value="gaza">Gaza</option><option value="inhambane">Inhambane</option><option value="sofala">Sofala</option><option value="manica">Manica</option><option value="tete">Tete</option><option value="zambezia">Zambézia</option><option value="nampula">Nampula</option><option value="cabo_delgado">Cabo Delgado</option><option value="niassa">Niassa</option></select></div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Finalizar e Ganhar 25 MZN</button>
+                </form>
+            </div>
+            
+            <!-- Mensagem de agradecimento/conclusão -->
+            <div id="agradecimento" class="text-center" style="display: none;">
+                <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
+                <h3 class="fw-bold">Obrigado pela sua participação!</h3>
+                <p class="lead">As suas respostas foram registadas com sucesso.</p>
+                <div class="alert alert-info mt-4">
+                    <h4 class="alert-heading">Painel de Pagamento</h4>
+                    <p>Seu bônus de **25 MZN** foi creditado e será processado para o seu método de pagamento registrado.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container text-center"><p>&copy; 2025 860Pub. Todos os direitos reservados.</p></div>
+</footer>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- ########## INÍCIO DA ATUALIZAÇÃO NO JAVASCRIPT ########## -->
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC2f4u23zFNN_z_maM66iycemf77-2Buys",
+  authDomain: "pub-f5372.firebaseapp.com",
+  projectId: "pub-f5372",
+  storageBucket: "pub-f5372.firebasestorage.app",
+  messagingSenderId: "693816443318",
+  appId: "1:693816443318:web:ca2608d68fec5499578117"
+};
+
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const loader = document.getElementById('loader');
+    const body = document.querySelector('body');
+    const surveyFormEl = document.getElementById('surveyForm');
+    const inqueritoDiv = document.getElementById('inquerito-form');
+    const userNameEl = document.getElementById('userName');
+    const logoutButton = document.getElementById('logoutButton');
+
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            const userDocRef = db.collection('users').doc(user.uid);
+            try {
+                const userDoc = await userDocRef.get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    userNameEl.textContent = userData.name || 'Usuário';
+                    if (userData.surveyCompleted === true) {
+                       window.location.replace('meu-perfil.html');
+                       return;
+                    }
+                }
+                inqueritoDiv.style.display = 'block';
+            } catch (error) {
+                console.error("Erro ao buscar dados do usuário:", error);
+                inqueritoDiv.style.display = 'block';
+            }
+            loader.style.display = 'none';
+            body.style.display = 'block';
+        } else {
+            window.location.replace('login.html');
+        }
+    });
+
+    // LÓGICA DO FORMULÁRIO CORRIGIDA PARA ESPERAR O BANCO DE DADOS
+    surveyFormEl.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const currentUser = auth.currentUser;
+        if (!currentUser) return;
+
+        const submitButton = surveyFormEl.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>A Guardar...';
+
+        const userDocRef = db.collection('users').doc(currentUser.uid);
+        
+        try {
+            // 1. ATUALIZA os dados no banco de dados e ESPERA a operação terminar.
+            await userDocRef.update({
+                balance: firebase.firestore.FieldValue.increment(25),
+                surveyCompleted: true 
+            });
+
+            // 2. AGORA, com os dados salvos, é seguro redirecionar o usuário.
+            window.location.href = 'meu-perfil.html';
+
+        } catch (error) {
+            // Em caso de erro, avisa o usuário e reativa o botão.
+            console.error("Erro crítico ao finalizar o inquérito:", error);
+            alert("Ocorreu um erro ao guardar os seus dados. Por favor, tente novamente.");
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Finalizar e Ganhar 25 MZN';
+        }
+    });
+    
+    logoutButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        auth.signOut().then(() => { window.location.href = 'login.html'; });
+    });
+</script>
+</body>
+</html>

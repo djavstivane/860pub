@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Administrador - 860Pub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #2c5aa0; --secondary-color: #28a745; }
+        body { background-color: #f4f7fc; font-family: 'Poppins', sans-serif; }
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.3s ease; }
+        .navbar { background-color: #1e293b !important; }
+        .stat-card { background-color: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 25px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+        .stat-icon { font-size: 2rem; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; }
+        .stat-number { font-size: 2.2rem; font-weight: 700; color: #1e293b; }
+        .table-action-btns .btn { margin-right: 5px; }
+        .card { border: none; border-radius: 12px; }
+        .card-header { border-radius: 12px 12px 0 0 !important; background-color: #334155 !important; }
+        .nav-tabs .nav-link { color: #6c757d; font-weight: 600; }
+        .nav-tabs .nav-link.active { color: var(--primary-color); border-color: var(--primary-color); border-bottom-width: 3px; }
+        
+        /* Estilos dos badges de investimento */
+        .investment-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 4px;
+            margin-bottom: 2px;
+            display: inline-block;
+        }
+        .investment-badge.tiktok { background-color: #000; color: white; }
+        .investment-badge.instagram { background-color: #E1306C; color: white; }
+        .investment-badge.youtube { background-color: #FF0000; color: white; }
+        .investment-badge.facebook { background-color: #1877F2; color: white; }
+        .investment-badge.google { background-color: #4285F4; color: white; }
+        
+        /* Estilos do modal de investimento */
+        .investment-modal {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .investment-option {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .investment-option:hover {
+            border-color: var(--primary-color);
+            background-color: #f8f9ff;
+        }
+        .investment-option.selected {
+            border-color: var(--primary-color);
+            background-color: #e7f3ff;
+        }
+        .investment-icon {
+            font-size: 2rem;
+            width: 50px;
+            text-align: center;
+        }
+        .investment-icon.tiktok { color: #000; }
+        .investment-icon.instagram { color: #E1306C; }
+        .investment-icon.youtube { color: #FF0000; }
+        .investment-icon.facebook { color: #1877F2; }
+        .investment-icon.google { color: #4285F4; }
+    </style>
+</head>
+<body>
+    <div id="loader">
+        <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+        <p class="fw-bold fs-5 text-muted" id="loader-message">Verificando autenticação...</p>
+    </div>
+
+    <div id="admin-panel" style="display: none;">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#"><i class="fas fa-user-shield me-2"></i>Admin 860Pub</a>
+                <button class="btn btn-outline-light" id="logoutButtonAdmin"><i class="fas fa-sign-out-alt me-2"></i>Sair</button>
+            </div>
+        </nav>
+
+        <main class="container py-5">
+            <ul class="nav nav-tabs nav-fill mb-4" id="adminTab" role="tablist">
+                <li class="nav-item" role="presentation"><button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="withdrawals-tab" data-bs-toggle="tab" data-bs-target="#withdrawals" type="button" role="tab"><i class="fas fa-money-bill-transfer me-2"></i>Gerenciar Saques</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab"><i class="fas fa-users-cog me-2"></i>Gerenciar Usuários</button></li>
+                <li class="nav-item" role="presentation"><button class="nav-link" id="investments-tab" data-bs-toggle="tab" data-bs-target="#investments" type="button" role="tab"><i class="fas fa-chart-line me-2"></i>Gerenciar Investimentos</button></li>
+            </ul>
+
+            <div class="tab-content" id="adminTabContent">
+                <!-- ABA DASHBOARD -->
+                <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-md-3"><div class="stat-card"><div class="d-flex align-items-center"><div class="stat-icon bg-primary me-3"><i class="fas fa-users"></i></div><div><div class="stat-number" id="total-users-stat">0</div><div class="text-muted">Usuários Totais</div></div></div></div></div>
+                        <div class="col-md-3"><div class="stat-card"><div class="d-flex align-items-center"><div class="stat-icon bg-warning me-3"><i class="fas fa-hourglass-half"></i></div><div><div class="stat-number" id="pending-withdrawals-stat">0</div><div class="text-muted">Saques Pendentes</div></div></div></div></div>
+                        <div class="col-md-3"><div class="stat-card"><div class="d-flex align-items-center"><div class="stat-icon bg-success me-3"><i class="fas fa-check-circle"></i></div><div><div class="stat-number" id="approved-value-stat">0.00</div><div class="text-muted">Total Aprovado (MZN)</div></div></div></div></div>
+                        <div class="col-md-3"><div class="stat-card"><div class="d-flex align-items-center"><div class="stat-icon bg-info me-3"><i class="fas fa-chart-line"></i></div><div><div class="stat-number" id="total-balance-stat">0.00</div><div class="text-muted">Saldo em Contas (MZN)</div></div></div></div></div>
+                    </div>
+                </div>
+
+                <!-- ABA SAQUES -->
+                <div class="tab-pane fade" id="withdrawals" role="tabpanel">
+                    <ul class="nav nav-pills mb-3"><li class="nav-item"><a class="nav-link active" data-bs-toggle="pill" href="#pending-pills">Pendentes</a></li><li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#history-pills">Histórico</a></li></ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="pending-pills"><div class="card shadow-sm"><div class="card-body"><div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Data Solicitação</th><th>Usuário</th><th>Valor (MZN)</th><th>Método/Número</th><th class="text-center">Ações</th></tr></thead><tbody id="pending-withdrawals-body"></tbody></table></div></div></div></div>
+                        <div class="tab-pane fade" id="history-pills">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-light d-flex justify-content-end border-0 pt-3 pe-3">
+                                    <button class="btn btn-sm btn-danger" onclick="clearWithdrawalHistory()"><i class="fas fa-broom me-1"></i> Limpar Histórico Completo</button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Data Process.</th><th>Usuário</th><th>Valor (MZN)</th><th>Status</th><th class="text-center">Ações</th></tr></thead><tbody id="history-withdrawals-body"></tbody></table></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABA USUÁRIOS -->
+                <div class="tab-pane fade" id="users" role="tabpanel">
+                    <div class="card shadow-sm"><div class="card-body">
+                        <div class="input-group mb-3"><span class="input-group-text"><i class="fas fa-search"></i></span><input type="text" id="user-search-input" class="form-control" placeholder="Buscar por nome ou e-mail..."></div>
+                        <div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>Nome</th><th>Email</th><th>Saldo (MZN)</th><th>Investimentos Ativos</th><th>Data de Cadastro</th><th class="text-center">Ações</th></tr></thead><tbody id="users-body"></tbody></table></div>
+                    </div></div>
+                </div>
+
+                <!-- ABA INVESTIMENTOS -->
+                <div class="tab-pane fade" id="investments" role="tabpanel">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Controle de Investimentos</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted">Gerencie os investimentos ativos dos usuários. Ative ou desative planilhas de investimento conforme os pagamentos recebidos.</p>
+                                    
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                        <input type="text" id="investment-user-search" class="form-control" placeholder="Buscar usuário por nome ou e-mail...">
+                                    </div>
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th>Usuário</th>
+                                                    <th>E-mail</th>
+                                                    <th>Investimentos Ativos</th>
+                                                    <th class="text-center">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="investment-users-body">
+                                                <!-- Conteúdo será carregado dinamicamente -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL GERENCIAR SALDO -->
+    <div class="modal fade" id="manageBalanceModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">Gerenciar Saldo de <span id="modalUserName"></span></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+            <p><strong>Saldo Atual:</strong> <span id="modalCurrentUserBalance" class="fw-bold"></span> MZN</p><hr>
+            <form id="manageBalanceForm" onsubmit="handleManageBalance(event)">
+                <div class="mb-3"><label for="balanceAction" class="form-label">Ação</label><select class="form-select" id="balanceAction" required><option value="add">Adicionar Saldo</option><option value="remove">Remover Saldo</option></select></div>
+                <div class="mb-3"><label for="amount" class="form-label">Valor (MZN)</label><input type="number" class="form-control" id="amount" min="0.01" step="0.01" required></div>
+                <input type="hidden" id="userIdForBalance"><button type="submit" class="btn btn-primary w-100">Confirmar Ação</button>
+            </form>
+        </div>
+    </div></div></div>
+
+    <!-- MODAL GERENCIAR INVESTIMENTOS -->
+    <div class="modal fade" id="manageInvestmentModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content investment-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">Gerenciar Investimentos de <span id="investmentModalUserName"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted">Selecione os investimentos que deseja ativar ou desativar para este usuário:</p>
+                    
+                    <div id="investment-options">
+                        <div class="investment-option" data-platform="tiktok">
+                            <i class="fab fa-tiktok investment-icon tiktok"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">PERFIL 1: TIKTOK</h6>
+                                <small class="text-muted">Investimento: 250 MZN | Rendimento: 4 MZN por ADS</small>
+                            </div>
+                            <i class="fas fa-plus text-success"></i>
+                        </div>
+                        
+                        <div class="investment-option" data-platform="instagram">
+                            <i class="fab fa-instagram investment-icon instagram"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">PERFIL 2: INSTAGRAM</h6>
+                                <small class="text-muted">Investimento: 500 MZN | Rendimento: 8 MZN por ADS</small>
+                            </div>
+                            <i class="fas fa-plus text-success"></i>
+                        </div>
+                        
+                        <div class="investment-option" data-platform="youtube">
+                            <i class="fab fa-youtube investment-icon youtube"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">PERFIL 3: YOUTUBE</h6>
+                                <small class="text-muted">Investimento: 1000 MZN | Rendimento: 16 MZN por ADS</small>
+                            </div>
+                            <i class="fas fa-plus text-success"></i>
+                        </div>
+                        
+                        <div class="investment-option" data-platform="facebook">
+                            <i class="fab fa-facebook investment-icon facebook"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">PERFIL 4: FACEBOOK</h6>
+                                <small class="text-muted">Investimento: 5000 MZN | Rendimento: 80 MZN por ADS</small>
+                            </div>
+                            <i class="fas fa-plus text-success"></i>
+                        </div>
+                        
+                        <div class="investment-option" data-platform="google">
+                            <i class="fab fa-google investment-icon google"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">PERFIL 5: GOOGLE ADS</h6>
+                                <small class="text-muted">Investimento: 10000 MZN | Rendimento: 160 MZN por ADS</small>
+                            </div>
+                            <i class="fas fa-plus text-success"></i>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="userIdForInvestment">
+                    
+                    <div class="mt-4 p-3 bg-light rounded">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-info-circle text-primary me-2"></i>
+                            <small class="text-muted">
+                                <strong>Instruções:</strong> Clique nos investimentos para ativar/desativar. Investimentos ativos aparecerão destacados.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveInvestmentChanges">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2f4u23zFNN_z_maM66iycemf77-2Buys",
+      authDomain: "pub-f5372.firebaseapp.com",
+      projectId: "pub-f5372",
+      storageBucket: "pub-f5372.firebasestorage.app",
+      messagingSenderId: "693816443318",
+      appId: "1:693816443318:web:ca2608d68fec5499578117"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const ui = { 
+        loader: document.getElementById('loader'), 
+        loaderMessage: document.getElementById('loader-message'), 
+        adminPanel: document.getElementById('admin-panel'), 
+        pendingWithdrawalsBody: document.getElementById('pending-withdrawals-body'), 
+        historyWithdrawalsBody: document.getElementById('history-withdrawals-body'), 
+        usersBody: document.getElementById('users-body'), 
+        userSearchInput: document.getElementById('user-search-input'), 
+        totalUsersStat: document.getElementById('total-users-stat'), 
+        pendingWithdrawalsStat: document.getElementById('pending-withdrawals-stat'), 
+        approvedValueStat: document.getElementById('approved-value-stat'), 
+        totalBalanceStat: document.getElementById('total-balance-stat'), 
+        modalUserName: document.getElementById('modalUserName'), 
+        modalCurrentUserBalance: document.getElementById('modalCurrentUserBalance'), 
+        userIdForBalance: document.getElementById('userIdForBalance'), 
+        manageBalanceForm: document.getElementById('manageBalanceForm'),
+        investmentUsersBody: document.getElementById('investment-users-body'),
+        investmentUserSearch: document.getElementById('investment-user-search'),
+        investmentModalUserName: document.getElementById('investmentModalUserName'),
+        userIdForInvestment: document.getElementById('userIdForInvestment'),
+        investmentOptions: document.querySelectorAll('.investment-option'),
+        saveInvestmentChanges: document.getElementById('saveInvestmentChanges')
+    };
+    
+    const modals = { 
+        balance: new bootstrap.Modal(document.getElementById('manageBalanceModal')),
+        investment: new bootstrap.Modal(document.getElementById('manageInvestmentModal'))
+    };
+
+    let allUsers = [];
+    let selectedInvestments = new Set();
+    let currentUserInvestments = {};
+
+    document.addEventListener('DOMContentLoaded', () => { 
+        auth.onAuthStateChanged(async (user) => { 
+            if (user) { 
+                ui.loaderMessage.textContent = 'Verificando permissões...'; 
+                try { 
+                    const userDoc = await db.collection('users').doc(user.uid).get(); 
+                    if (userDoc.exists && userDoc.data().isAdmin === true) { 
+                        ui.loaderMessage.textContent = 'Carregando painel administrativo...'; 
+                        setTimeout(initializeAdminPanel, 500); 
+                    } else { 
+                        auth.signOut(); 
+                        alert('Acesso negado.'); 
+                        window.location.href = 'login.html'; 
+                    } 
+                } catch (error) { 
+                    alert("Ocorreu um erro ao verificar suas permissões."); 
+                    auth.signOut(); 
+                    window.location.href = 'login.html'; 
+                } 
+            } else { 
+                window.location.href = 'login.html'; 
+            } 
+        }); 
+    });
+
+    function initializeAdminPanel() { 
+        ui.loader.style.opacity = '0'; 
+        setTimeout(() => { 
+            ui.loader.style.display = 'none'; 
+        }, 300); 
+        ui.adminPanel.style.display = 'block'; 
+        loadDashboardStats(); 
+        loadWithdrawals(); 
+        loadUsers();
+        loadInvestmentUsers();
+    }
+    
+    function loadDashboardStats() { 
+        db.collection('users').onSnapshot(snap => { 
+            const nonAdminUsers = snap.docs.filter(doc => !doc.data().isAdmin);
+            ui.totalUsersStat.textContent = nonAdminUsers.length; 
+            let totalBalance = 0; 
+            nonAdminUsers.forEach(doc => { totalBalance += doc.data().balance || 0; }); 
+            ui.totalBalanceStat.textContent = totalBalance.toFixed(2); 
+        }); 
+        db.collection('withdrawals').onSnapshot(snap => { 
+            let pendingCount = 0; 
+            let approvedTotal = 0; 
+            snap.forEach(doc => { 
+                const data = doc.data(); 
+                if (data.status === 'pending') pendingCount++; 
+                if (data.status === 'approved') approvedTotal += data.amount; 
+            }); 
+            ui.pendingWithdrawalsStat.textContent = pendingCount; 
+            ui.approvedValueStat.textContent = approvedTotal.toFixed(2); 
+        }); 
+    }
+
+    function loadWithdrawals() {
+        db.collection('withdrawals').orderBy('requestedAt', 'desc').onSnapshot(snapshot => {
+            ui.pendingWithdrawalsBody.innerHTML = '';
+            ui.historyWithdrawalsBody.innerHTML = '';
+            let hasHistory = false;
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const requestedDate = data.requestedAt ? data.requestedAt.toDate().toLocaleString('pt-BR') : 'N/A';
+                const processedDate = data.processedAt ? data.processedAt.toDate().toLocaleString('pt-BR') : 'N/A';
+                const userNameEscaped = (data.userName || 'N/A').replace(/'/g, "\\'");
+                
+                if (data.status === 'pending') {
+                    const row = `<tr><td>${requestedDate}</td><td>${data.userName||'N/A'}</td><td>${data.amount.toFixed(2)}</td><td><span class="badge ${data.paymentMethod==='M-Pesa'?'bg-danger':'bg-warning text-dark'}">${data.paymentMethod}</span> ${data.phoneNumber}</td><td class="text-center"><button class="btn btn-sm btn-success" onclick="approveWithdrawal('${doc.id}','${data.userId}',${data.amount})"><i class="fas fa-check"></i> Aprovar</button><button class="btn btn-sm btn-danger" onclick="rejectWithdrawal('${doc.id}')"><i class="fas fa-times"></i> Rejeitar</button></td></tr>`;
+                    ui.pendingWithdrawalsBody.innerHTML += row;
+                } else {
+                    hasHistory = true;
+                    const statusBadge = data.status === 'approved' ? '<span class="badge bg-success">Aprovado</span>' : '<span class="badge bg-danger">Rejeitado</span>';
+                    const row = `<tr><td>${processedDate}</td><td>${data.userName||'N/A'}</td><td>${data.amount.toFixed(2)}</td><td>${statusBadge}</td><td class="text-center"><button class="btn btn-sm btn-outline-danger" onclick="deleteWithdrawalHistoryItem('${doc.id}', ${data.amount}, '${userNameEscaped}')" title="Apagar este registro"><i class="fas fa-trash-alt"></i></button></td></tr>`;
+                    ui.historyWithdrawalsBody.innerHTML += row;
+                }
+            });
+            if (ui.pendingWithdrawalsBody.innerHTML === '') ui.pendingWithdrawalsBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Nenhum saque pendente.</td></tr>';
+            if (!hasHistory) ui.historyWithdrawalsBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Nenhum histórico de saque encontrado.</td></tr>';
+        });
+    }
+    
+    function loadUsers() { 
+        db.collection('users').orderBy('createdAt', 'desc').onSnapshot(snapshot => { 
+            allUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); 
+            renderUsers(ui.userSearchInput.value); 
+        }); 
+    }
+
+    function renderUsers(searchTerm = "") {
+        const lowerSearchTerm = searchTerm.toLowerCase();
+        const filteredUsers = allUsers.filter(user => !user.isAdmin && ((user.name && user.name.toLowerCase().includes(lowerSearchTerm)) || (user.email && user.email.toLowerCase().includes(lowerSearchTerm))));
+        
+        ui.usersBody.innerHTML = '';
+        if (filteredUsers.length === 0) { ui.usersBody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Nenhum usuário encontrado.</td></tr>'; return; }
+
+        filteredUsers.forEach(user => {
+            const date = user.createdAt ? user.createdAt.toDate().toLocaleDateString('pt-BR') : 'N/A';
+            const userNameEscaped = (user.name || 'N/A').replace(/'/g, "\\'");
+            const userEmailEscaped = (user.email || '').replace(/'/g, "\\'");
+            
+            let investmentBadges = '';
+            if (user.activeInvestments) {
+                Object.keys(user.activeInvestments).forEach(platform => {
+                    investmentBadges += `<span class="investment-badge ${platform}">${platform.toUpperCase()}</span>`;
+                });
+            }
+            if (!investmentBadges) investmentBadges = '<span class="text-muted">Nenhum</span>';
+            
+            // ### LINHA MODIFICADA ABAIXO ###
+            const row = `<tr>
+                <td>${user.name||'N/A'}</td>
+                <td>${user.email||'N/A'}</td>
+                <td>${(user.balance||0).toFixed(2)}</td>
+                <td>${investmentBadges}</td>
+                <td>${date}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-info" onclick="openManageBalanceModal('${user.id}','${userNameEscaped}',${user.balance||0})"><i class="fas fa-wallet me-1"></i> Gerir Saldo</button>
+                    <button class="btn btn-sm btn-warning" onclick="resetUserPassword('${user.email}')"><i class="fas fa-key me-1"></i> Resetar Senha</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteUser('${user.id}','${userNameEscaped}')"><i class="fas fa-trash-alt me-1"></i> Remover</button>
+                </td>
+            </tr>`;
+            ui.usersBody.innerHTML += row;
+        });
+    }
+
+    // ### NOVA FUNÇÃO ADICIONADA AQUI ###
+    window.resetUserPassword = async (email) => {
+        if (!email) {
+            alert('Este usuário não possui um e-mail para redefinir a senha.');
+            return;
+        }
+        if (confirm(`Deseja enviar um e-mail de redefinição de senha para ${email}?`)) {
+            try {
+                await auth.sendPasswordResetEmail(email);
+                alert('E-mail de redefinição enviado com sucesso!');
+            } catch (error) {
+                console.error("Erro ao enviar e-mail de reset:", error);
+                alert(`Ocorreu um erro: ${error.message}`);
+            }
+        }
+    };
+
+    function loadInvestmentUsers() {
+        db.collection('users').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderInvestmentUsers(users, ui.investmentUserSearch.value);
+        });
+    }
+
+    function renderInvestmentUsers(users, searchTerm = "") {
+        const lowerSearchTerm = searchTerm.toLowerCase();
+        const filteredUsers = users.filter(user => !user.isAdmin && 
+            ((user.name && user.name.toLowerCase().includes(lowerSearchTerm)) || 
+             (user.email && user.email.toLowerCase().includes(lowerSearchTerm))));
+        
+        ui.investmentUsersBody.innerHTML = '';
+        if (filteredUsers.length === 0) {
+            ui.investmentUsersBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Nenhum usuário encontrado.</td></tr>';
+            return;
+        }
+
+        filteredUsers.forEach(user => {
+            const userNameEscaped = (user.name || 'N/A').replace(/'/g, "\\'");
+            
+            let investmentBadges = '';
+            if (user.activeInvestments) {
+                Object.keys(user.activeInvestments).forEach(platform => {
+                    const balance = user.activeInvestments[platform].balance || 0;
+                    investmentBadges += `<span class="investment-badge ${platform}" title="Saldo: ${balance.toFixed(2)} MZN">${platform.toUpperCase()}</span>`;
+                });
+            }
+            if (!investmentBadges) investmentBadges = '<span class="text-muted">Nenhum investimento ativo</span>';
+            
+            const row = `<tr>
+                <td>${user.name || 'N/A'}</td>
+                <td>${user.email || 'N/A'}</td>
+                <td>${investmentBadges}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-primary" onclick="openManageInvestmentModal('${user.id}','${userNameEscaped}')">
+                        <i class="fas fa-chart-line me-1"></i> Gerenciar Investimentos
+                    </button>
+                </td>
+            </tr>`;
+            ui.investmentUsersBody.innerHTML += row;
+        });
+    }
+
+    window.openManageInvestmentModal = async (userId, userName) => {
+        ui.investmentModalUserName.textContent = userName;
+        ui.userIdForInvestment.value = userId;
+        
+        try {
+            const userDoc = await db.collection('users').doc(userId).get();
+            currentUserInvestments = userDoc.data().activeInvestments || {};
+            
+            selectedInvestments.clear();
+            ui.investmentOptions.forEach(option => {
+                const platform = option.getAttribute('data-platform');
+                option.classList.remove('selected');
+                
+                if (currentUserInvestments[platform]) {
+                    option.classList.add('selected');
+                    selectedInvestments.add(platform);
+                    const icon = option.querySelector('.fas');
+                    icon.className = 'fas fa-times text-danger';
+                } else {
+                    const icon = option.querySelector('.fas');
+                    icon.className = 'fas fa-plus text-success';
+                }
+            });
+            
+            modals.investment.show();
+        } catch (error) {
+            console.error('Erro ao carregar investimentos do usuário:', error);
+            alert('Erro ao carregar dados do usuário.');
+        }
+    };
+
+    ui.investmentOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const platform = option.getAttribute('data-platform');
+            const icon = option.querySelector('.fas');
+            
+            if (selectedInvestments.has(platform)) {
+                selectedInvestments.delete(platform);
+                option.classList.remove('selected');
+                icon.className = 'fas fa-plus text-success';
+            } else {
+                selectedInvestments.add(platform);
+                option.classList.add('selected');
+                icon.className = 'fas fa-times text-danger';
+            }
+        });
+    });
+
+    ui.saveInvestmentChanges.addEventListener('click', async () => {
+        const userId = ui.userIdForInvestment.value;
+        if (!userId) return;
+
+        try {
+            const userRef = db.collection('users').doc(userId);
+            const updateData = {};
+            
+            const investmentDefaults = {
+                tiktok: { balance: 0, dailyClicks: 0, lastClickDate: null },
+                instagram: { balance: 0, dailyClicks: 0, lastClickDate: null },
+                youtube: { balance: 0, dailyClicks: 0, lastClickDate: null },
+                facebook: { balance: 0, dailyClicks: 0, lastClickDate: null },
+                google: { balance: 0, dailyClicks: 0, lastClickDate: null }
+            };
+
+            selectedInvestments.forEach(platform => {
+                if (!currentUserInvestments[platform]) {
+                    updateData[`activeInvestments.${platform}`] = investmentDefaults[platform];
+                }
+            });
+
+            Object.keys(currentUserInvestments).forEach(platform => {
+                if (!selectedInvestments.has(platform)) {
+                    updateData[`activeInvestments.${platform}`] = firebase.firestore.FieldValue.delete();
+                }
+            });
+
+            if (selectedInvestments.size === 0) {
+                updateData.activeInvestments = firebase.firestore.FieldValue.delete();
+            }
+
+            await userRef.update(updateData);
+            
+            alert('Investimentos atualizados com sucesso!');
+            modals.investment.hide();
+            
+        } catch (error) {
+            console.error('Erro ao atualizar investimentos:', error);
+            alert('Erro ao salvar alterações: ' + error.message);
+        }
+    });
+
+    ui.investmentUserSearch.addEventListener('input', (e) => {
+        const users = allUsers;
+        renderInvestmentUsers(users, e.target.value);
+    });
+
+    ui.userSearchInput.addEventListener('input', (e) => renderUsers(e.target.value));
+    
+    window.approveWithdrawal = async (withdrawalId, userId, amount) => { if (confirm(`Aprovar saque de ${amount.toFixed(2)} MZN?`)) try { await db.runTransaction(async t => { const userDoc = await t.get(db.collection('users').doc(userId)); if (!userDoc.exists) throw new Error("Usuário não encontrado!"); if ((userDoc.data().balance || 0) < amount) throw new Error("Saldo do usuário é insuficiente!"); t.update(db.collection('users').doc(userId), { balance: firebase.firestore.FieldValue.increment(-amount), totalWithdrawals: firebase.firestore.FieldValue.increment(amount) }); t.update(db.collection('withdrawals').doc(withdrawalId), { status: 'approved', processedAt: firebase.firestore.FieldValue.serverTimestamp() }); }); alert('Saque aprovado!'); } catch (error) { alert("Erro: " + error.message); } }
+    window.rejectWithdrawal = async (withdrawalId) => { if (confirm('Rejeitar este saque?')) try { await db.collection('withdrawals').doc(withdrawalId).update({ status: 'rejected', processedAt: firebase.firestore.FieldValue.serverTimestamp() }); alert("Saque rejeitado."); } catch(error) { alert("Erro: " + error.message); } }
+    
+    window.openManageBalanceModal = (id, name, balance) => { ui.modalUserName.textContent = name; ui.modalCurrentUserBalance.textContent = (balance || 0).toFixed(2); ui.userIdForBalance.value = id; ui.manageBalanceForm.reset(); modals.balance.show(); }
+    window.handleManageBalance = async (event) => { event.preventDefault(); const userId = ui.userIdForBalance.value; const action = document.getElementById('balanceAction').value; const amount = parseFloat(document.getElementById('amount').value); if (isNaN(amount) || amount <= 0) { alert('Valor inválido.'); return; } const userRef = db.collection('users').doc(userId); const amountToIncrement = action === 'add' ? amount : -amount; try { if (action === 'remove') { const userDoc = await userRef.get(); if ((userDoc.data().balance || 0) < amount) { alert('Não é possível remover valor maior que o saldo atual.'); return; } } await userRef.update({ balance: firebase.firestore.FieldValue.increment(amountToIncrement) }); alert(`Saldo de ${amount.toFixed(2)} MZN ${action === 'add' ? 'adicionado' : 'removido'}.`); modals.balance.hide(); } catch(err) { alert("Erro: " + err.message); } }
+    window.deleteUser = async (userId, userName) => { if (confirm(`ATENÇÃO!\nRemover PERMANENTEMENTE o usuário "${userName}"?\n\nEsta ação não pode ser desfeita.`)) try { await db.collection('users').doc(userId).delete(); alert(`Usuário "${userName}" removido.`); } catch (error) { alert("Erro: " + error.message); } }
+
+    window.deleteWithdrawalHistoryItem = async (withdrawalId, amount, userName) => { if (confirm(`Apagar o registro de saque de ${amount.toFixed(2)} MZN para "${userName}"?\n\nO valor será deduzido do "Total Aprovado".`)) try { await db.collection('withdrawals').doc(withdrawalId).delete(); alert('Registro apagado.'); } catch (error) { alert('Erro: ' + error.message); } }
+    window.clearWithdrawalHistory = async () => { if (confirm('ATENÇÃO!\n\nApagar PERMANENTEMENTE todo o histórico de saques?\n\nEsta ação é irreversível e o "Total Aprovado" será zerado.')) try { const querySnapshot = await db.collection('withdrawals').where('status', 'in', ['approved', 'rejected']).get(); if (querySnapshot.empty) { alert('Não há histórico para limpar.'); return; } const batch = db.batch(); querySnapshot.forEach(doc => { batch.delete(doc.ref); }); await batch.commit(); alert('Histórico limpo com sucesso.'); } catch (error) { alert('Erro: ' + error.message); } }
+
+    document.getElementById('logoutButtonAdmin').addEventListener('click', () => { if (confirm('Sair do painel?')) auth.signOut().then(() => { window.location.href = 'login.html'; }); });
+   </script>
+</body>
+</html>

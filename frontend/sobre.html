@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - 860Pub</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+    
+    <style>
+        :root {
+            --primary-color: #2c5aa0;
+            --secondary-color: #28a745;
+            --accent-color: #ffc107;
+            --dark-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .navbar-brand {
+            font-weight: bold; font-size: 1.8rem; color: var(--primary-color) !important;
+        }
+        
+        .navbar .nav-link.active {
+            color: var(--primary-color) !important; font-weight: 600;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, rgba(44, 90, 160, 0.9), rgba(74, 123, 200, 0.8)), url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80') no-repeat center center;
+            background-size: cover; padding: 100px 0; color: white; text-align: center;
+        }
+
+        .page-header h1 { font-size: 3.5rem; font-weight: 700; }
+
+        .section-title {
+            font-weight: 700; color: var(--dark-color); margin-bottom: 30px; position: relative; padding-bottom: 15px;
+        }
+        .section-title::after {
+            content: ''; position: absolute; display: block; width: 60px; height: 4px;
+            background: var(--primary-color); bottom: 0; left: 50%; transform: translateX(-50%);
+        }
+
+        .mission-vision-card {
+            background-color: white; border-radius: 15px; padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.07); transition: all 0.3s ease; height: 100%;
+            border: 1px solid rgba(44, 90, 160, 0.1);
+        }
+        .mission-vision-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(44, 90, 160, 0.15);
+            border-color: var(--primary-color);
+        }
+        .mission-vision-card .icon { 
+            font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem; 
+            transition: transform 0.3s ease;
+        }
+        .mission-vision-card:hover .icon { transform: scale(1.1); }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .mission-vision-card { padding: 1.5rem; }
+            .mission-vision-card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+            .page-header h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+        }
+
+        .team-member { text-align: center; }
+        .team-member img {
+            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+            border: 5px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 1rem;
+        }
+
+        .social-icons a { color: var(--dark-color); font-size: 1.5rem; margin: 0 10px; transition: color 0.3s; }
+        .social-icons a:hover { color: var(--primary-color); }
+        .footer { background: var(--dark-color); color: white; padding: 40px 0 20px; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-bullhorn me-2"></i>860Pub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="sobre.html">Sobre Nós</a></li>
+                    <li class="nav-item"><a class="nav-link" href="parcerias.html">Parcerias Comerciais</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ganhe-dinheiro.html">Ganhe Dinheiro</a></li>
+                    <!-- Menu dinâmico: Login ou Perfil do Usuário -->
+                    <li class="nav-item" id="login-link">
+                        <a class="nav-link btn btn-outline-primary ms-2 px-3" href="login.html">Entrar</a>
+                    </li>
+                    <li class="nav-item dropdown" id="user-menu" style="display: none;">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i><span id="userName"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarUserDropdown">
+                            <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logoutButton">Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo da página -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Conectando Marcas ao Futuro Digital</h1>
+            <p class="lead">Nós somos a 860Pub. Uma agência de performance focada em impulsionar o seu sucesso.</p>
+        </div>
+    </header>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold" style="color: var(--dark-color);">PROJECTO 860Pub: A Sua Plataforma de Vendas de Anúncios</h2>
+                    <p class="text-muted">A 860Pub é uma empresa especializada na criação, gestão e venda de espaços publicitários, oferecendo soluções estratégicas para marcas que desejam aumentar sua visibilidade, alcançar mais clientes e gerar vendas.</p>
+                    <p class="text-muted">Nosso foco é conectar empresas ao seu público-alvo através de anúncios digitais de alta performance em mídias sociais, como Instagram, Facebook e TikTok. Transformamos dados em estratégia e cliques em clientes.</p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2274&q=80" alt="Equipe em reunião" class="img-fluid rounded-3 shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Nós Section -->
+    <section class="py-5" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Sobre Nós</h2>
+                </div>
+            </div>
+            
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="mission-vision-card h-100">
+                        <div class="icon text-center">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="text-center mb-4" style="color: var(--primary-color);">Resultados Comprovados</h3>
+                        <p class="text-muted">A 860Pub é especialista em transformar investimento publicitário em resultados reais e mensuráveis. Num mercado onde <strong>93% dos consumidores</strong> afirmam descobrir novos produtos e serviços através de anúncios online, ajudamos a sua marca a estar presente no momento certo, para o público certo.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="mission-vision-card h-100">
+                        <div class="icon text-center">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3 class="text-center mb-4" style="color: var(--secondary-color);">Performance Excepcional</h3>
+                        <p class="text-muted">Os nossos clientes já registaram aumentos de <strong>+45% nas vendas</strong> no primeiro trimestre de campanha e reduziram o custo por aquisição em <strong>30%</strong>. Em média, cada <strong>$1 investido</strong> em anúncios digitais bem direcionados pode gerar até <strong>$5,20 de retorno</strong>. Isso é cerca de <strong>80.77% de retorno</strong>, demonstrando ser um investimento muito promissor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investimento/Retorno Section -->
+    <section class="py-5" style="background-color: #ffffff;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Investimento / Retorno</h2>
+                    <p class="lead text-muted">Com a 860Pub, o seu dinheiro não apenas compra anúncios — ele compra visibilidade, autoridade e vendas.</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="mission-vision-card text-center">
+                        <div class="icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h4 style="color: var(--primary-color);">Segmentação Precisa</h4>
+                        <p class="text-muted">Uma parte do valor investido do cliente é destinada a plataformas de anúncios (Facebook, Instagram, TikTok, Google Ads, outdoors digitais), garantindo que o seu anúncio é exibido apenas para o público mais propenso a comprar.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="mission-vision-card text-center">
+                        <div class="icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4 style="color: var(--primary-color);">Criação de Conteúdo Profissional</h4>
+                        <p class="text-muted">Outra parte cobre produção de imagens, vídeos e textos de impacto, otimizados para cada meio de comunicação, garantindo máxima efetividade e engajamento.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="mission-vision-card text-center">
+                        <div class="icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <h4 style="color: var(--primary-color);">Distribuição Estratégica</h4>
+                        <p class="text-muted">Aplicamos o orçamento de forma equilibrada entre anúncios pagos (patrocinados) e canais de alta conversão, aumentando a frequência e alcance da sua marca.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="mission-vision-card text-center">
+                        <div class="icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h4 style="color: var(--primary-color);">Otimização Contínua</h4>
+                        <p class="text-muted">Realocamos recursos em tempo real para as campanhas e formatos que estão a gerar mais resultados, evitando desperdício e maximizando retorno sobre investimento.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="mission-vision-card text-center">
+                        <div class="icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h4 style="color: var(--primary-color);">Relatórios Transparentes</h4>
+                        <p class="text-muted">Mostramos exatamente como cada dólar foi utilizado e qual o lucro obtido, com relatórios detalhados e métricas de performance em tempo real.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="mission-vision-card text-center" style="border: 3px solid var(--secondary-color);">
+                        <div class="icon" style="color: var(--secondary-color);">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4 style="color: var(--secondary-color);">Resultado Garantido</h4>
+                        <p class="text-muted"><strong>Transformamos dados em estratégia e cliques em clientes.</strong> Cada investimento é uma oportunidade de crescimento exponencial para o seu negócio.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="fw-bold mb-4">Pronto para Transformar o Seu Negócio?</h2>
+                    <p class="lead mb-4">Junte-se aos nossos clientes que já aumentaram suas vendas em 45% no primeiro trimestre.</p>
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-auto">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-2" style="color: var(--accent-color);"></i>
+                                <span>+45% Vendas</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-2" style="color: var(--accent-color);"></i>
+                                <span>-30% Custo Aquisição</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle me-2" style="color: var(--accent-color);"></i>
+                                <span>ROI 80.77%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="parcerias.html" class="btn btn-warning btn-lg px-5 me-3">
+                            <i class="fas fa-handshake me-2"></i>Iniciar Parceria
+                        </a>
+                        <a href="ganhe-dinheiro.html" class="btn btn-outline-light btn-lg px-5">
+                            <i class="fas fa-dollar-sign me-2"></i>Ganhar Dinheiro
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center"><p>&copy; 2025 860Pub. Todos os direitos reservados.</p></div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC2f4u23zFNN_z_maM66iycemf77-2Buys",
+  authDomain: "pub-f5372.firebaseapp.com",
+  projectId: "pub-f5372",
+  storageBucket: "pub-f5372.firebasestorage.app",
+  messagingSenderId: "693816443318",
+  appId: "1:693816443318:web:ca2608d68fec5499578117"
+};
+
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ELEMENTOS DO DOM para a navbar
+        const loginLink = document.getElementById('login-link');
+        const userMenu = document.getElementById('user-menu');
+        const userNameEl = document.getElementById('userName');
+        const logoutButton = document.getElementById('logoutButton');
+
+        // Verifica o estado de autenticação para customizar a navbar
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // Usuário está logado
+                loginLink.style.display = 'none';
+                userMenu.style.display = 'block';
+
+                try {
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    userNameEl.textContent = userDoc.exists ? userDoc.data().name : 'Usuário';
+                } catch (error) {
+                    console.error("Erro ao buscar nome do usuário:", error);
+                    userNameEl.textContent = 'Usuário';
+                }
+            } else {
+                // Usuário NÃO está logado
+                loginLink.style.display = 'block';
+                userMenu.style.display = 'none';
+            }
+        });
+
+        // Adiciona funcionalidade ao botão de Logout
+        logoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().catch((error) => console.error('Erro ao sair:', error));
+        });
+    </script>
+</body>
+</html>

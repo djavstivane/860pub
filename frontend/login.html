@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>860Pub - Entrar / Cadastrar</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+    
+    <style>
+        :root {
+            --primary-color: #2c5aa0;
+            --secondary-color: #28a745;
+            --accent-color: #ffc107;
+            --dark-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), #4a7bc8);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .auth-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .auth-left {
+            background: linear-gradient(135deg, var(--primary-color), #4a7bc8);
+            color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .auth-right {
+            padding: 3rem;
+        }
+        
+        .brand-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .form-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            background: #f8f9fa;
+            padding: 5px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(44, 90, 160, 0.25);
+        }
+        
+        .btn-auth {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-auth:hover {
+            background: #1e3f73;
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .input-group-text {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .password-toggle {
+            cursor: pointer;
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+            background: #f8f9fa;
+        }
+        .password-toggle i {
+            width: 20px;
+        }
+        
+        .loading { display: none; }
+        .success-message { display: none; background: #d4edda; color: #155724; padding: 15px; border-radius: 10px; margin-bottom: 1rem; }
+        .error-message { display: none; background: #f8d7da; color: #721c24; padding: 15px; border-radius: 10px; margin-bottom: 1rem; }
+
+        .assistance-box {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .assistance-box p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .social-icons a {
+            font-size: 1.8rem;
+            margin: 0 10px;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: var(--dark-color);
+        }
+        .fa-whatsapp { color: #25D366; }
+        .fa-telegram { color: #0088cc; }
+
+        @media (max-width: 768px) {
+            .auth-left { display: none; }
+            .auth-container { margin: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="auth-container mx-auto">
+                    <div class="row g-0">
+                        <!-- Left Side -->
+                        <div class="col-md-5">
+                            <div class="auth-left h-100">
+                                <a href="index.html" class="back-link text-decoration-none text-white"><i class="fas fa-arrow-left me-2"></i>Voltar ao início</a>
+                                <div class="brand-logo"><i class="fas fa-bullhorn me-2"></i>860Pub</div>
+                                <h3 class="mb-3">Plataforma de Anúncios</h3>
+                                <p class="mb-4">Conectamos empresas ao seu público-alvo.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Side -->
+                        <div class="col-md-7">
+                            <div class="auth-right">
+                                <div class="form-container">
+                                    <div class="form-tabs">
+                                        <button id="loginTab" class="tab-btn active" onclick="showForm('login')"><i class="fas fa-sign-in-alt me-2"></i>Entrar</button>
+                                        <button id="registerTab" class="tab-btn" onclick="showForm('register')"><i class="fas fa-user-plus me-2"></i>Cadastrar</button>
+                                    </div>
+                                    
+                                    <div class="success-message" id="successMessage"></div>
+                                    <div class="error-message" id="errorMessage"></div>
+                                    
+                                    <form id="authFormElement" onsubmit="handleAuth(event)">
+                                        <h2 class="text-center mb-4" id="formTitle">Acesse sua conta</h2>
+                                        
+                                        <div class="form-group" id="registerNameGroup" style="display:none;">
+                                            <label class="form-label">Nome Completo</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                <input type="text" class="form-control" id="registerName" placeholder="Seu nome completo" minlength="3">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label">E-mail</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                                <input type="email" class="form-control" id="email" placeholder="seu-email@exemplo.com" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label">Senha</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                <input type="password" class="form-control" id="password" placeholder="Mínimo 6 caracteres" minlength="6" required style="border-right: none;">
+                                                <span class="input-group-text password-toggle" id="togglePassword">
+                                                    <i class="fas fa-eye"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-auth mt-3">
+                                            <span class="btn-text" id="authButtonText">Entrar</span>
+                                            <span class="loading"><i class="fas fa-spinner fa-spin me-2"></i>Processando...</span>
+                                        </button>
+                                    </form>
+
+                                    <!-- Aba de Assistência -->
+                                    <div class="assistance-box">
+                                        <p>Precisa de ajuda?</p>
+                                        <div class="social-icons">
+                                            <a href="https://wa.me/258840134955" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                                            <a href="https://t.me/yradjavs" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=860pubspprt@gmail.com" target="_blank" rel="noopener"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <!-- JAVASCRIPT CORRIGIDO E OTIMIZADO -->
+    <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2f4u23zFNN_z_maM66iycemf77-2Buys",
+      authDomain: "pub-f5372.firebaseapp.com",
+      projectId: "pub-f5372",
+      storageBucket: "pub-f5372.firebasestorage.app",
+      messagingSenderId: "693816443318",
+      appId: "1:693816443318:web:ca2608d68fec5499578117"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    let currentForm = 'login'; 
+
+    // --- ELEMENTOS DO DOM ---
+    const authForm = document.getElementById('authFormElement');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const nameInput = document.getElementById('registerName');
+    const togglePassword = document.getElementById('togglePassword');
+
+    // --- FUNÇÕES AUXILIARES (sem alterações) ---
+    function setLoadingState(isLoading) { const btn = authForm.querySelector('button[type="submit"]'); if (btn) { btn.disabled = isLoading; btn.querySelector('.btn-text').style.display = isLoading ? 'none' : 'inline'; btn.querySelector('.loading').style.display = isLoading ? 'inline' : 'none'; } }
+    function showMessage(message, isError = false) { const el = document.getElementById(isError ? 'errorMessage' : 'successMessage'); const otherEl = document.getElementById(isError ? 'successMessage' : 'errorMessage'); otherEl.style.display = 'none'; el.textContent = message; el.style.display = 'block'; }
+    function clearMessages() { document.getElementById('successMessage').style.display = 'none'; document.getElementById('errorMessage').style.display = 'none'; }
+    function showForm(formType) { currentForm = formType; authForm.reset(); clearMessages(); const isRegister = formType === 'register'; document.getElementById('registerNameGroup').style.display = isRegister ? 'block' : 'none'; nameInput.required = isRegister; document.getElementById('formTitle').innerText = isRegister ? 'Crie sua conta' : 'Acesse sua conta'; document.getElementById('authButtonText').innerText = isRegister ? 'Cadastrar' : 'Entrar'; document.getElementById('loginTab').classList.toggle('active', !isRegister); document.getElementById('registerTab').classList.toggle('active', isRegister); emailInput.focus(); }
+
+    // --- FUNÇÃO DE AUTENTICAÇÃO ATUALIZADA ---
+    async function handleAuth(event) {
+        event.preventDefault();
+        clearMessages();
+        setLoadingState(true);
+
+        const name = nameInput.value;
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        try {
+            if (currentForm === 'register') {
+                // ETAPA 1: Cadastro simplificado
+                if (!name || name.length < 3) {
+                    throw { code: 'custom/invalid-name' };
+                }
+                
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Salva o nome do usuário no perfil de autenticação para uso posterior
+                await userCredential.user.updateProfile({
+                    displayName: name
+                });
+                
+                // A CRIAÇÃO DO DOCUMENTO FOI REMOVIDA DAQUI
+                
+                showMessage('Conta criada com sucesso! Por favor, faça login para continuar.');
+                showForm('login');
+                
+            } else {
+                // Lógica de login permanece a mesma
+                await auth.signInWithEmailAndPassword(email, password);
+            }
+        } catch (error) {
+            console.error("DEBUG: Erro de autenticação:", error);
+            const errorMap = { 'auth/email-already-in-use': 'Este e-mail já está cadastrado. Tente fazer login.', 'auth/user-not-found': 'E-mail ou senha inválidos.', 'auth/wrong-password': 'E-mail ou senha inválidos.', 'auth/invalid-credential': 'E-mail ou senha inválidos.', 'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres.', 'custom/invalid-name': 'O nome é obrigatório e deve ter no mínimo 3 caracteres.' };
+            showMessage(errorMap[error.code] || 'Ocorreu um erro. Verifique seus dados.', true);
+        } finally {
+            setLoadingState(false);
+        }
+    }
+    
+    // --- LISTENER DE REDIRECIONAMENTO E CRIAÇÃO DE DADOS (ATUALIZADO) ---
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            const userDocRef = db.collection('users').doc(user.uid);
+            try {
+                const userDoc = await userDocRef.get();
+
+                let userData;
+
+                if (!userDoc.exists) {
+                    // ETAPA 2: Se o documento não existe, CRIE-O AGORA!
+                    console.log(`Documento não encontrado para o usuário ${user.uid}. Criando agora...`);
+                    const newUserDocument = {
+                        name: user.displayName || "Novo Usuário",
+                        email: user.email,
+                        balance: 0,
+                        totalEarnings: 0,
+                        totalWithdrawals: 0,
+                        activeInvestments: 0,
+                        surveyCompleted: false,
+                        isAdmin: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    };
+                    await userDocRef.set(newUserDocument);
+                    userData = newUserDocument;
+                    console.log("Documento criado com sucesso.");
+                } else {
+                    // Se o documento já existe, apenas pegue os dados
+                    userData = userDoc.data();
+                }
+
+                // ETAPA 3: Redirecionamento normal
+                if (userData.isAdmin === true) {
+                    window.location.replace('admin.html');
+                } else if (userData.surveyCompleted === false) {
+                    window.location.replace('ganhe-dinheiro.html');
+                } else {
+                    window.location.replace('meu-perfil.html');
+                }
+
+            } catch (error) {
+                console.error("Erro crítico no onAuthStateChanged:", error);
+                showMessage('Erro ao carregar sua conta. Tente novamente.', true);
+                auth.signOut();
+            }
+        }
+    });
+
+    // --- EVENT LISTENER PARA VER A SENHA (sem alterações) ---
+    togglePassword.addEventListener('click', function () { const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'; passwordInput.setAttribute('type', type); this.querySelector('i').classList.toggle('fa-eye'); this.querySelector('i').classList.toggle('fa-eye-slash'); });
+
+    window.onload = () => showForm('login');
+</script>
+</body>
+</html>

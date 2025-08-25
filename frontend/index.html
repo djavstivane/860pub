@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>860Pub - Plataforma de Anúncios Publicitários</title>
+
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+            rel="stylesheet">
+        <!-- Font Awesome -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            rel="stylesheet">
+            <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+
+
+        <style>
+        :root {
+            --primary-color: #2c5aa0;
+            --secondary-color: #28a745;
+            --accent-color: #ffc107;
+            --dark-color: #333;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; }
+        .navbar-brand { font-weight: bold; font-size: 1.8rem; color: var(--primary-color) !important; }
+        .hero-section { background: linear-gradient(135deg, var(--primary-color), #4a7bc8); color: white; padding: 80px 0; }
+        .hero-title { font-size: 3rem; font-weight: bold; margin-bottom: 1rem; }
+        .hero-subtitle { font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9; }
+        .step-card { background: white; border-radius: 15px; padding: 2rem; margin: 1rem 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+        .step-card:hover { transform: translateY(-5px); }
+        .step-number { background: var(--secondary-color); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; margin: 0 auto 1rem; }
+        .cta-section { background: var(--secondary-color); color: white; padding: 60px 0; }
+        .btn-custom { background: var(--accent-color); color: var(--dark-color); border: none; padding: 15px 30px; border-radius: 30px; font-weight: bold; font-size: 1.1rem; transition: all 0.3s ease; }
+        .btn-custom:hover { background: #e0a800; transform: translateY(-2px); color: var(--dark-color); }
+        .footer { background: var(--dark-color); color: white; padding: 40px 0; }
+        .device-image { max-width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap:8px;">
+            <!-- Ícone do gráfico -->
+            <div style="display:flex; align-items:flex-end; gap:2px;">
+                <div style="width:6px; height:14px; background:#fff;"></div>
+                <div style="width:6px; height:20px; background:#fff;"></div>
+                <div style="width:6px; height:26px; background:#fff; position:relative;">
+                    <div style="position:absolute; top:-10px; left:3px; width:2px; height:12px; background:#fff; transform:rotate(-45deg);"></div>
+                </div>
+            </div>
+            <!-- Texto -->
+            <span style="font-size:1.2rem; font-weight:bold; color:white;">860</span>
+            <span style="font-size:1.2rem; font-weight:bold; color:white;">PUB</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul id="main-nav-links" class="navbar-nav ms-auto">
+                <!-- Links dinâmicos -->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<style>
+.navbar {
+    background-color: #003366 !important; /* fundo azul igual ao da logo */
+}
+</style>
+
+
+        <!-- Hero Section -->
+        <section class="hero-section text-center">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 text-lg-start">
+                        <h1 class="hero-title">Monetize Seus Anúncios
+                            Online</h1>
+                        <p class="hero-subtitle">Plataforma especializada em
+                            criação, gestão e venda de espaços publicitários
+                            para aumentar sua visibilidade e gerar vendas.</p>
+                        <!-- O JavaScript vai atualizar o botão se o usuário estiver logado -->
+                        <div id="hero-cta-button">
+                            <a href="login.html"
+                                class="btn btn-custom btn-lg">Começar Agora</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <img
+                            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80"
+                            alt="Anúncios Digitais" class="device-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it Works Section -->
+        <section class="py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold">Como funciona em 3 passos
+                        simples</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="step-card text-center">
+                            <div class="step-number">1</div>
+                            <h4>Cadastre-se</h4>
+                            <p>É fácil e leva apenas 30 segundos para
+                                começar.</p>
+                            <a href="login.html"
+                                class="btn btn-outline-primary">Começar
+                                cadastro</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="step-card text-center">
+                            <div class="step-number">2</div>
+                            <h4>Participe e Invista</h4>
+                            <p>Responda a inquéritos ou invista em perfis para
+                                ganhar dinheiro.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="step-card text-center">
+                            <div class="step-number">3</div>
+                            <h4>Receba Pagamentos</h4>
+                            <p>Retire seus ganhos de forma segura e rápida.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section text-center">
+            <div class="container" id="cta-section-content">
+                <h2 class="display-5 fw-bold mb-4">Pronto para começar a ganhar
+                    dinheiro?</h2>
+                <p class="lead mb-4">Junte-se a milhares de pessoas que já estão
+                    monetizando com a 860Pub.</p>
+                <a href="login.html" class="btn btn-custom btn-lg">Cadastrar
+                    Agora - É Grátis</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container text-center">
+                <p class="mb-0">&copy; 2025 860Pub. Todos os direitos
+                    reservados.</p>
+            </div>
+        </footer>
+
+        <!-- Bootstrap JS -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Firebase SDKs -->
+        <script
+            src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+        <script
+            src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+        <!-- NOSSO SCRIPT DE CONEXÃO -->
+        <script>
+        // ATENÇÃO: SUBSTITUA COM AS SUAS CHAVES REAIS DO FIREBASE
+        // NUNCA COMPARTILHE SUAS CHAVES PUBLICAMENTE. AS CHAVES ABAIXO SÃO APENAS EXEMPLOS.
+       // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyC2f4u23zFNN_z_maM66iycemf77-2Buys",
+  authDomain: "pub-f5372.firebaseapp.com",
+  projectId: "pub-f5372",
+  storageBucket: "pub-f5372.firebasestorage.app",
+  messagingSenderId: "693816443318",
+  appId: "1:693816443318:web:ca2608d68fec5499578117"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+        // Inicializa o Firebase (forma correta para os scripts 'compat')
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Função de logout
+        function logout() {
+            auth.signOut().catch(error => console.error('Logout error', error));
+        }
+
+        // Lógica que constrói a barra de navegação e atualiza a página
+        auth.onAuthStateChanged(user => {
+            const navLinksContainer = document.getElementById('main-nav-links');
+            const heroCtaButton = document.getElementById('hero-cta-button');
+            const ctaSection = document.getElementById('cta-section-content');
+
+            let navLinksHTML = '';
+
+            if (user) {
+                // --- USUÁRIO ESTÁ LOGADO ---
+                navLinksHTML = `
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="ganhe-dinheiro.html">Meu Painel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sobre.html">Sobre Nós</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="parcerias.html">Parcerias Comerciais</a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Sair</a>
+                    </li>
+                `;
+
+                heroCtaButton.innerHTML = `<a href="ganhe-dinheiro.html" class="btn btn-custom btn-lg">Acessar meu Painel</a>`;
+                ctaSection.innerHTML = `
+                    <h2 class="display-5 fw-bold mb-4">Bem-vindo(a) de volta!</h2>
+                    <p class="lead mb-4">Acesse seu painel para gerenciar seus ganhos e investimentos.</p>
+                    <a href="ganhe-dinheiro.html" class="btn btn-custom btn-lg">Ir para o Painel</a>
+                `;
+
+            } else {
+                // --- USUÁRIO NÃO ESTÁ LOGADO ---
+                navLinksHTML = `
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white ms-2 px-3" href="login.html">Entrar / Cadastrar</a>
+                    </li>
+                `;
+
+                heroCtaButton.innerHTML = `<a href="login.html" class="btn btn-custom btn-lg">Começar Agora</a>`;
+                ctaSection.innerHTML = `
+                    <h2 class="display-5 fw-bold mb-4">Pronto para começar a ganhar dinheiro?</h2>
+                    <p class="lead mb-4">Junte-se a milhares de pessoas que já estão monetizando com a 860Pub.</p>
+                    <a href="login.html" class="btn btn-custom btn-lg">Cadastrar Agora - É Grátis</a>
+                `;
+            }
+            navLinksContainer.innerHTML = navLinksHTML;
+        });
+    </script>
+    </body>
+</html>

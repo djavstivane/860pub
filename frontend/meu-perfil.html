@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Painel - 860Pub</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #2c5aa0;
+            --secondary-color: #28a745;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-bg); }
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; display: flex; justify-content: center; align-items: center; z-index: 9999; }
+        .stat-card { background: white; border-radius: 15px; padding: 1.5rem; text-align: center; box-shadow: var(--card-shadow); transition: transform 0.3s ease; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-number { font-size: 2rem; font-weight: 700; color: var(--primary-color); }
+        .withdrawal-card { background: white; border-radius: 15px; padding: 2rem; box-shadow: var(--card-shadow); }
+        .payment-logo { height: 40px; border: 3px solid transparent; border-radius: 8px; cursor: pointer; transition: all 0.2s ease-in-out; opacity: 0.6; }
+        input[name="payment"]:checked + .payment-logo { border-color: var(--primary-color); transform: scale(1.1); opacity: 1; }
+        .investment-card { background: white; border-radius: 15px; box-shadow: var(--card-shadow); text-align: center; padding: 2rem; transition: transform 0.3s ease; }
+        .investment-card:hover { transform: translateY(-5px); }
+        .platform-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .investment-card .tiktok { color: #000; }
+        .investment-card .instagram { color: #E1306C; }
+        .investment-card .youtube { color: #FF0000; }
+        .investment-card .facebook { color: #1877F2; }
+        .investment-card .google { color: #4285F4; }
+        .investment-details li { padding: 0.4rem 0; list-style: none; text-align: left; }
+        
+        /* Estilos do inquérito integrado */
+        .inquerito-container { background: white; border-radius: 15px; padding: 2.5rem; box-shadow: var(--card-shadow); }
+        .survey-wrapper { position: relative; }
+        .survey-lock-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; border-radius: 15px; z-index: 10; transition: opacity 0.3s ease;
+        }
+        .timer-display { font-size: 3rem; font-weight: 700; color: var(--primary-color); }
+
+        /* Estilos para o modal de investimento */
+        .investment-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .investment-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        .investment-modal-header {
+            background: linear-gradient(135deg, var(--primary-color), #4a7bc8);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 18px;
+        }
+
+        .close-modal:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .investment-modal-body {
+            padding: 2rem;
+        }
+
+        .modal-platform-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .deposit-method {
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .deposit-method:hover {
+            border-color: var(--primary-color);
+            background-color: #f8f9ff;
+        }
+
+        .deposit-method.active {
+            border-color: var(--primary-color);
+            background-color: #f0f4ff;
+        }
+
+        .payment-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .payment-info.show {
+            display: block;
+        }
+
+        .copy-number {
+            background: white;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-number:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20b358;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .instruction-step {
+            background: white;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Estilos da Seção de Assistência Profissional */
+        .assistance-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 3rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .assistance-box {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .assistance-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .assistance-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .assistance-subtitle {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: bold;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-icon:hover::before {
+            left: 100%;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        }
+
+        .whatsapp-icon {
+            background: linear-gradient(135deg, #25D366, #20b358);
+        }
+
+        .whatsapp-icon:hover {
+            background: linear-gradient(135deg, #20b358, #1ca049);
+            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.4);
+        }
+
+        .telegram-icon {
+            background: linear-gradient(135deg, #0088cc, #006bb3);
+        }
+
+        .telegram-icon:hover {
+            background: linear-gradient(135deg, #006bb3, #005999);
+            box-shadow: 0 15px 35px rgba(0, 136, 204, 0.4);
+        }
+
+        .social-label {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #495057;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover + .social-label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .contact-info h6 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .contact-info li {
+            padding: 0.5rem 0;
+            color: #6c757d;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-info i {
+            width: 20px;
+            color: var(--secondary-color);
+        }
+
+        /* ESTILOS DAS PLANILHAS DE INVESTIMENTO */
+        .investment-dashboard {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .investment-dashboard.tiktok { border-color: #000; }
+        .investment-dashboard.instagram { border-color: #E1306C; }
+        .investment-dashboard.youtube { border-color: #FF0000; }
+        .investment-dashboard.facebook { border-color: #1877F2; }
+        .investment-dashboard.google { border-color: #4285F4; }
+
+        .investment-dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: currentColor;
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-icon {
+            font-size: 3rem;
+        }
+
+        .dashboard-icon.tiktok { color: #000; }
+        .dashboard-icon.instagram { color: #E1306C; }
+        .dashboard-icon.youtube { color: #FF0000; }
+        .dashboard-icon.facebook { color: #1877F2; }
+        .dashboard-icon.google { color: #4285F4; }
+
+        .balance-section {
+            background: #dc3545;
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .balance-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .ads-section {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .ads-btn {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .ads-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #c82333, #bd2130);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+
+        .ads-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .cooldown-timer {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            border-left: 4px solid #ffc107;
+        }
+
+        .cooldown-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffc107;
+            margin: 0.5rem 0;
+        }
+
+        .earnings-info {
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .earnings-info h6 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .earnings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.25rem 0;
+        }
+
+        .pending-container {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .investment-modal {
+                width: 95%;
+                margin: 10px;
+            }
+            .investment-modal-body {
+                padding: 1.5rem;
+            }
+            .assistance-box {
+                margin: 0 1rem;
+                padding: 2rem 1.5rem;
+            }
+            .assistance-title {
+                font-size: 1.6rem;
+            }
+            .social-icons {
+                gap: 1rem;
+            }
+            .social-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+            .assistance-section {
+                padding: 2rem 0;
+            }
+            .ads-section {
+                gap: 8px;
+            }
+            .ads-btn {
+                font-size: 0.9rem;
+                padding: 10px 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .social-icons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+            .assistance-title {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .dashboard-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .balance-value {
+                font-size: 2rem;
+            }
+        }
+
+    </style>
+</head>
+<body style="display: none;">
+
+    <div id="loader"><div class="spinner-border text-primary" role="status"></div></div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: var(--primary-color);"><i class="fas fa-bullhorn me-2"></i>860Pub</a>
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown"><i class="fas fa-user-circle me-1"></i><span id="userNameNav">...</span></a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+
+                        <li><a class="dropdown-item" href="meu-perfil.html"><i class="fas fa-user-cog me-2"></i>Meu Perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+  <a class="dropdown-item" href="sobre.html">
+    <i class="fas fa-info-circle me-2"></i> Sobre Nós
+  </a>
+</li>
+
+<li><hr class="dropdown-divider"></li>
+
+<li>
+  <a class="dropdown-item" href="parcerias.html">
+    <i class="fas fa-handshake me-2"></i> Parcerias Comerciais
+  </a>
+</li>
+                        <li><a class="dropdown-item" href="login.html" id="logoutButton"><i class="fas fa-sign-out-alt me-2"></i>Sair da Conta</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <h1 class="display-5 fw-bold mb-4">Bem-vindo, <span id="userNameProfile">...</span>!</h1>
+        <div class="row g-4 mb-5">
+            <div class="col-md-3 col-6"><div class="stat-card"><div class="stat-number" id="totalBalance">0.00</div><div class="stat-label">Saldo Atual</div></div></div>
+            <div class="col-md-3 col-6"><div class="stat-card"><div class="stat-number" id="totalEarnings">0.00</div><div class="stat-label">Total Ganho</div></div></div>
+            <div class="col-md-3 col-6"><div class="stat-card"><div class="stat-number" id="totalWithdrawals">0.00</div><div class="stat-label">Saques Realizados</div></div></div>
+            <div class="col-md-3 col-6"><div class="stat-card"><div class="stat-number" id="activeInvestments">0</div><div class="stat-label">Investimentos Ativos</div></div></div>
+        </div>
+
+        <!-- SEÇÃO DAS PLANILHAS DE INVESTIMENTO -->
+        <div id="investment-dashboards" style="display: none;">
+            <!-- TikTok Dashboard -->
+            <div id="tiktok-dashboard" class="investment-dashboard tiktok" style="display: none;">
+                <div class="dashboard-header">
+                    <i class="fab fa-tiktok dashboard-icon tiktok"></i>
+                    <h3 class="fw-bold mb-0">PERFIL 1: TIKTOK</h3>
+                </div>
+                
+                <div class="balance-section">
+                    <h5 class="mb-2">SALDO:</h5>
+                    <div class="balance-value" id="tiktok-balance">+0.00</div>
+                </div>
+                
+                <div class="ads-section">
+                    <button class="ads-btn" id="tiktok-ads-1" onclick="clickAd('tiktok', 1)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="tiktok-ads-2" onclick="clickAd('tiktok', 2)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="tiktok-ads-3" onclick="clickAd('tiktok', 3)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="tiktok-ads-4" onclick="clickAd('tiktok', 4)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                </div>
+                
+                <div id="tiktok-cooldown" class="cooldown-timer" style="display: none;">
+                    <i class="fas fa-clock text-warning"></i>
+                    <p class="mb-1"><strong>Próximos anúncios disponíveis em:</strong></p>
+                    <div class="cooldown-display" id="tiktok-timer">--:--:--</div>
+                </div>
+                
+                <div class="earnings-info">
+                    <h6><i class="fas fa-chart-line me-2"></i>Informações de Rendimento</h6>
+                    <div class="earnings-row">
+                        <span>Rendimento por ADS:</span>
+                        <strong>4.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>Máximo por dia:</span>
+                        <strong>16.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>ADS clicados hoje:</span>
+                        <strong id="tiktok-clicked-count">0/4</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instagram Dashboard -->
+            <div id="instagram-dashboard" class="investment-dashboard instagram" style="display: none;">
+                <div class="dashboard-header">
+                    <i class="fab fa-instagram dashboard-icon instagram"></i>
+                    <h3 class="fw-bold mb-0">PERFIL 2: INSTAGRAM</h3>
+                </div>
+                
+                <div class="balance-section">
+                    <h5 class="mb-2">SALDO:</h5>
+                    <div class="balance-value" id="instagram-balance">+0.00</div>
+                </div>
+                
+                <div class="ads-section">
+                    <button class="ads-btn" id="instagram-ads-1" onclick="clickAd('instagram', 1)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="instagram-ads-2" onclick="clickAd('instagram', 2)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="instagram-ads-3" onclick="clickAd('instagram', 3)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="instagram-ads-4" onclick="clickAd('instagram', 4)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                </div>
+                
+                <div id="instagram-cooldown" class="cooldown-timer" style="display: none;">
+                    <i class="fas fa-clock text-warning"></i>
+                    <p class="mb-1"><strong>Próximos anúncios disponíveis em:</strong></p>
+                    <div class="cooldown-display" id="instagram-timer">--:--:--</div>
+                </div>
+                
+                <div class="earnings-info">
+                    <h6><i class="fas fa-chart-line me-2"></i>Informações de Rendimento</h6>
+                    <div class="earnings-row">
+                        <span>Rendimento por ADS:</span>
+                        <strong>8.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>Máximo por dia:</span>
+                        <strong>32.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>ADS clicados hoje:</span>
+                        <strong id="instagram-clicked-count">0/4</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- YouTube Dashboard -->
+            <div id="youtube-dashboard" class="investment-dashboard youtube" style="display: none;">
+                <div class="dashboard-header">
+                    <i class="fab fa-youtube dashboard-icon youtube"></i>
+                    <h3 class="fw-bold mb-0">PERFIL 3: YOUTUBE</h3>
+                </div>
+                
+                <div class="balance-section">
+                    <h5 class="mb-2">SALDO:</h5>
+                    <div class="balance-value" id="youtube-balance">+0.00</div>
+                </div>
+                
+                <div class="ads-section">
+                    <button class="ads-btn" id="youtube-ads-1" onclick="clickAd('youtube', 1)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="youtube-ads-2" onclick="clickAd('youtube', 2)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="youtube-ads-3" onclick="clickAd('youtube', 3)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="youtube-ads-4" onclick="clickAd('youtube', 4)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                </div>
+                
+                <div id="youtube-cooldown" class="cooldown-timer" style="display: none;">
+                    <i class="fas fa-clock text-warning"></i>
+                    <p class="mb-1"><strong>Próximos anúncios disponíveis em:</strong></p>
+                    <div class="cooldown-display" id="youtube-timer">--:--:--</div>
+                </div>
+                
+                <div class="earnings-info">
+                    <h6><i class="fas fa-chart-line me-2"></i>Informações de Rendimento</h6>
+                    <div class="earnings-row">
+                        <span>Rendimento por ADS:</span>
+                        <strong>16.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>Máximo por dia:</span>
+                        <strong>64.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>ADS clicados hoje:</span>
+                        <strong id="youtube-clicked-count">0/4</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facebook Dashboard -->
+            <div id="facebook-dashboard" class="investment-dashboard facebook" style="display: none;">
+                <div class="dashboard-header">
+                    <i class="fab fa-facebook dashboard-icon facebook"></i>
+                    <h3 class="fw-bold mb-0">PERFIL 4: FACEBOOK</h3>
+                </div>
+                
+                <div class="balance-section">
+                    <h5 class="mb-2">SALDO:</h5>
+                    <div class="balance-value" id="facebook-balance">+0.00</div>
+                </div>
+                
+                <div class="ads-section">
+                    <button class="ads-btn" id="facebook-ads-1" onclick="clickAd('facebook', 1)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="facebook-ads-2" onclick="clickAd('facebook', 2)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="facebook-ads-3" onclick="clickAd('facebook', 3)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="facebook-ads-4" onclick="clickAd('facebook', 4)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                </div>
+                
+                <div id="facebook-cooldown" class="cooldown-timer" style="display: none;">
+                    <i class="fas fa-clock text-warning"></i>
+                    <p class="mb-1"><strong>Próximos anúncios disponíveis em:</strong></p>
+                    <div class="cooldown-display" id="facebook-timer">--:--:--</div>
+                </div>
+                
+                <div class="earnings-info">
+                    <h6><i class="fas fa-chart-line me-2"></i>Informações de Rendimento</h6>
+                    <div class="earnings-row">
+                        <span>Rendimento por ADS:</span>
+                        <strong>80.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>Máximo por dia:</span>
+                        <strong>320.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>ADS clicados hoje:</span>
+                        <strong id="facebook-clicked-count">0/4</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Ads Dashboard -->
+            <div id="google-dashboard" class="investment-dashboard google" style="display: none;">
+                <div class="dashboard-header">
+                    <i class="fab fa-google dashboard-icon google"></i>
+                    <h3 class="fw-bold mb-0">PERFIL 5: GOOGLE ADS</h3>
+                </div>
+                
+                <div class="balance-section">
+                    <h5 class="mb-2">SALDO:</h5>
+                    <div class="balance-value" id="google-balance">+0.00</div>
+                </div>
+                
+                <div class="ads-section">
+                    <button class="ads-btn" id="google-ads-1" onclick="clickAd('google', 1)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="google-ads-2" onclick="clickAd('google', 2)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="google-ads-3" onclick="clickAd('google', 3)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                    <button class="ads-btn" id="google-ads-4" onclick="clickAd('google', 4)">
+                        <i class="fas fa-play"></i> ADS
+                    </button>
+                </div>
+                
+                <div id="google-cooldown" class="cooldown-timer" style="display: none;">
+                    <i class="fas fa-clock text-warning"></i>
+                    <p class="mb-1"><strong>Próximos anúncios disponíveis em:</strong></p>
+                    <div class="cooldown-display" id="google-timer">--:--:--</div>
+                </div>
+                
+                <div class="earnings-info">
+                    <h6><i class="fas fa-chart-line me-2"></i>Informações de Rendimento</h6>
+                    <div class="earnings-row">
+                        <span>Rendimento por ADS:</span>
+                        <strong>160.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>Máximo por dia:</span>
+                        <strong>640.00 MZN</strong>
+                    </div>
+                    <div class="earnings-row">
+                        <span>ADS clicados hoje:</span>
+                        <strong id="google-clicked-count">0/4</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="withdrawal-card mb-5">
+            <div id="saque-container">
+                <h3 class="mb-3">Solicitar Saque</h3>
+                <form id="saque-form" class="row g-3 align-items-center">
+                    <div class="col-12 col-md-4 text-center">
+                        <label><input type="radio" name="payment" value="M-Pesa" class="d-none" required><img src="img\M-pesa.jpeg" alt="M-Pesa" class="payment-logo"></label>
+                        <label class="ms-3"><input type="radio" name="payment" value="E-Mola" class="d-none" required><img src="img\E-mola.jpeg" alt="E-Mola" class="payment-logo"></label>
+                        <label class="ms-3">
+  <input type="radio" name="payment" value="Visa" class="d-none">
+  <i class="fab fa-cc-visa fa-3x payment-logo unavailable"></i>
+</label>
+
+<label class="ms-3">
+  <input type="radio" name="payment" value="MasterCard" class="d-none">
+  <i class="fab fa-cc-mastercard fa-3x payment-logo unavailable"></i>
+</label>
+
+<label class="ms-3">
+  <input type="radio" name="payment" value="PayPal" class="d-none">
+  <i class="fab fa-cc-paypal fa-3x payment-logo unavailable"></i>
+</label>
+
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <input type="number" class="form-control form-control-lg" id="saque-valor" placeholder="Valor do saque" required min="16" step="0.01">
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <input type="tel" class="form-control form-control-lg" id="saque-numero" placeholder="Selecione o método..." required maxlength="9" disabled>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <button type="submit" class="btn btn-lg w-100" style="background-color: var(--secondary-color); color:white; font-weight:bold;">Sacar</button>
+                    </div>
+                </form>
+                 <small class="form-text text-muted mt-2 d-block">Nota: Os saques são processados por um administrador e podem levar algum tempo.</small>
+            </div>
+            <div id="countdown-container" class="text-center" style="display: none;">
+                <h5 class="text-uppercase text-muted small">Próxima Solicitação de Saque Disponível Em:</h5>
+                <div class="timer-display" style="font-size: 2.5rem; font-weight: 700; color: var(--primary-color);">--:--:--</div>
+            </div>
+
+            <div id="pending-container" class="text-center" style="display: none;">
+                <i class="fas fa-hourglass-half fa-2x text-warning mb-3"></i>
+                <h5 class="text-uppercase text-muted small">Saque Pendente</h5>
+                <p class="mb-0">Sua solicitação de saque está aguardando aprovação do administrador.</p>
+                <p>O formulário será liberado assim que o saque for processado.</p>
+            </div>
+        </div>
+
+        <!-- ## SEÇÃO DO INQUÉRITO DIÁRIO INTEGRADA ## -->
+        <section class="mb-5" id="survey-section">
+            <div class="survey-wrapper">
+                <!-- Overlay para primeira utilização -->
+                <div id="first-use-overlay" style="display: none;" class="survey-lock-overlay">
+                    <div class="text-center">
+                        <i class="fas fa-clock fa-4x mb-3 text-muted"></i>
+                        <h4 class="text-muted mb-3">Inquérito de Bônus Bloqueado</h4>
+                        <p class="mb-3">O inquérito de bônus estará disponível após realizar seu primeiro saque.</p>
+                        <p class="text-sm text-muted">Faça um saque e aguarde 30 segundos para desbloquear este bônus único.</p>
+                    </div>
+                </div>
+                
+                <!-- Overlay para período de espera -->
+                <div id="survey-lock-overlay" style="display: none;" class="survey-lock-overlay">
+                    <div class="text-center">
+                        <i class="fas fa-hourglass-half fa-3x mb-3 text-primary"></i>
+                        <h4 class="text-muted mb-2">Bônus Disponível Após o Cooldown:</h4>
+                        <div id="timer-display" class="timer-display mb-3">--:--:--</div>
+                        <p class="text-sm text-muted">Responda ao inquérito após o período de espera para ganhar 25 MZN.</p>
+                    </div>
+                </div>
+                
+                <div class="inquerito-container mx-auto" style="max-width: 700px;">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-circle" style="width: 80px; height: 80px;">
+                            <i class="fas fa-gift fa-2x text-primary"></i>
+                        </div>
+                        <h3 class="mt-3 mb-2">Inquérito Único de Bônus</h3>
+                        <p class="text-muted mb-0">Suas respostas nos ajudam a crescer. Complete para ganhar seu bônus de 25 MZN!</p>
+                        <div class="badge bg-success mt-2">
+                            <i class="fas fa-coins me-1"></i>Bônus: 25 MZN
+                        </div>
+                    </div>
+                    
+                    <form id="dailySurveyForm">
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-dark">
+                                <span class="badge bg-primary me-2">1</span>Como ficou sabendo da existência do 860 PUB?
+                            </label>
+                            <input type="text" class="form-control form-control-lg" name="como_soube" placeholder="Digite sua resposta..." required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-dark">
+                                <span class="badge bg-primary me-2">2</span>Já utilizou alguma vez o tráfego pago?
+                            </label>
+                            <div class="mt-2">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="usou_trafego" value="sim" class="form-check-input" id="trafego_sim" required>
+                                    <label class="form-check-label fw-medium" for="trafego_sim">
+                                        <i class="fas fa-check-circle text-success me-1"></i>Sim
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="usou_trafego" value="nao" class="form-check-input" id="trafego_nao">
+                                    <label class="form-check-label fw-medium" for="trafego_nao">
+                                        <i class="fas fa-times-circle text-danger me-1"></i>Não
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-dark">
+                                <span class="badge bg-primary me-2">3</span>Já vendeu anúncios no 860 PUB?
+                            </label>
+                            <div class="mt-2">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="vendeu_anuncios" value="sim" class="form-check-input" id="vendeu_sim" required>
+                                    <label class="form-check-label fw-medium" for="vendeu_sim">
+                                        <i class="fas fa-check-circle text-success me-1"></i>Sim
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="vendeu_anuncios" value="nao" class="form-check-input" id="vendeu_nao">
+                                    <label class="form-check-label fw-medium" for="vendeu_nao">
+                                        <i class="fas fa-times-circle text-danger me-1"></i>Não
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-dark">
+                                <span class="badge bg-primary me-2">4</span>Já ganhou dinheiro com a 860 PUB?
+                            </label>
+                            <div class="mt-2">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="ganhou_dinheiro" value="sim" class="form-check-input" id="ganhou_sim" required>
+                                    <label class="form-check-label fw-medium" for="ganhou_sim">
+                                        <i class="fas fa-check-circle text-success me-1"></i>Sim
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="ganhou_dinheiro" value="nao" class="form-check-input" id="ganhou_nao">
+                                    <label class="form-check-label fw-medium" for="ganhou_nao">
+                                        <i class="fas fa-times-circle text-danger me-1"></i>Não
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-dark">
+                                <span class="badge bg-primary me-2">5</span>Já viu anúncios de 860 PUB?
+                            </label>
+                            <div class="mt-2">
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="viu_anuncios" value="sim" class="form-check-input" id="viu_sim" required>
+                                    <label class="form-check-label fw-medium" for="viu_sim">
+                                        <i class="fas fa-check-circle text-success me-1"></i>Sim
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" name="viu_anuncios" value="nao" class="form-check-input" id="viu_nao">
+                                    <label class="form-check-label fw-medium" for="viu_nao">
+                                        <i class="fas fa-times-circle text-danger me-1"></i>Não
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" id="submitButton" class="btn btn-primary btn-lg py-3 fw-bold">
+                                <span class="button-icon me-2"><i class="fas fa-gift"></i></span>
+                                <span class="button-text">Finalizar e Ganhar 25 MZN</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ## SEÇÃO DE INVESTIMENTOS ORIGINAL ## -->
+        <h2 class="text-center mb-4 fw-bold">Invista e Acelere</h2>
+        <div class="row g-4" id="investment-section">
+            <div class="col-lg-4 col-md-6">
+                <div class="investment-card" data-investment='{"title":"PERFIL 1: TIKTOK","investment":250,"dailyReturn":16,"totalProfit":480,"icon":"fab fa-tiktok","iconClass":"tiktok"}'>
+                    <i class="fab fa-tiktok platform-icon tiktok"></i>
+                    <h4 class="fw-bold">PERFIL 1: TIKTOK</h4>
+                    <ul class="investment-details p-0">
+                        <li><strong>Investimento:</strong> 250 MZN</li>
+                        <li><strong>Rendimento:</strong> 16 MZN/dia</li>
+                        <li><strong>Lucro Total:</strong> 480 MZN</li>
+                    </ul>
+                    <button class="btn btn-outline-dark">Investir</button>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="investment-card" data-investment='{"title":"PERFIL 2: INSTAGRAM","investment":500,"dailyReturn":32,"totalProfit":960,"icon":"fab fa-instagram","iconClass":"instagram"}'>
+                    <i class="fab fa-instagram platform-icon instagram"></i>
+                    <h4 class="fw-bold">PERFIL 2: INSTAGRAM</h4>
+                    <ul class="investment-details p-0">
+                        <li><strong>Investimento:</strong> 500 MZN</li>
+                        <li><strong>Rendimento:</strong> 32 MZN/dia</li>
+                        <li><strong>Lucro Total:</strong> 960 MZN</li>
+                    </ul>
+                    <button class="btn btn-outline-dark">Investir</button>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="investment-card" data-investment='{"title":"PERFIL 3: YOUTUBE","investment":1000,"dailyReturn":64,"totalProfit":1920,"icon":"fab fa-youtube","iconClass":"youtube"}'>
+                    <i class="fab fa-youtube platform-icon youtube"></i>
+                    <h4 class="fw-bold">PERFIL 3: YOUTUBE</h4>
+                    <ul class="investment-details p-0">
+                        <li><strong>Investimento:</strong> 1000 MZN</li>
+                        <li><strong>Rendimento:</strong> 64 MZN/dia</li>
+                        <li><strong>Lucro Total:</strong> 1920 MZN</li>
+                    </ul>
+                    <button class="btn btn-outline-dark">Investir</button>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="investment-card" data-investment='{"title":"PERFIL 4: FACEBOOK","investment":5000,"dailyReturn":320,"totalProfit":9600,"icon":"fab fa-facebook","iconClass":"facebook"}'>
+                    <i class="fab fa-facebook platform-icon facebook"></i>
+                    <h4 class="fw-bold">PERFIL 4: FACEBOOK</h4>
+                    <ul class="investment-details p-0">
+                        <li><strong>Investimento:</strong> 5000 MZN</li>
+                        <li><strong>Rendimento:</strong> 320 MZN/dia</li>
+                        <li><strong>Lucro Total:</strong> 9600 MZN</li>
+                    </ul>
+                    <button class="btn btn-outline-dark">Investir</button>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="investment-card" data-investment='{"title":"PERFIL 5: GOOGLE ADS","investment":10000,"dailyReturn":640,"totalProfit":19200,"icon":"fab fa-google","iconClass":"google"}'>
+                    <i class="fab fa-google platform-icon google"></i>
+                    <h4 class="fw-bold">PERFIL 5: GOOGLE ADS</h4>
+                    <ul class="investment-details p-0">
+                        <li><strong>Investimento:</strong> 10000 MZN</li>
+                        <li><strong>Rendimento:</strong> 640 MZN/dia</li>
+                        <li><strong>Lucro Total:</strong> 19200 MZN</li>
+                    </ul>
+                    <button class="btn btn-outline-dark">Investir</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Seção de Assistência Profissional -->
+    <section class="assistance-section">
+        <div class="container">
+            <div class="assistance-box">
+                <h2 class="assistance-title">
+                    <i class="fas fa-headset"></i>
+                    Precisa de Ajuda?
+                </h2>
+                <p class="assistance-subtitle">
+                    Nossa equipe de suporte está sempre disponível para você. Entre em contato através dos canais oficiais abaixo.
+                </p>
+                
+                <div class="social-icons">
+                    <div class="d-flex flex-column align-items-center">
+                        <a href="https://wa.me/258840134955" target="_blank" class="social-icon whatsapp-icon" title="WhatsApp - Suporte Rápido">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <div class="social-label">WhatsApp</div>
+                    </div>
+                    
+                    <div class="d-flex flex-column align-items-center">
+                        <a href="https://t.me/yradjavs" target="_blank" class="social-icon telegram-icon" title="Telegram - Chat Direto">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <div class="social-label">Telegram</div>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <h6>
+                        <i class="fas fa-info-circle"></i>
+                        Informações de Contato
+                    </h6>
+                    <ul>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            Horário de atendimento: 24/7 disponível
+                        </li>
+                        <li>
+                            <i class="fas fa-reply"></i>
+                            Tempo de resposta: Até 30 minutos
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-check"></i>
+                            Suporte técnico especializado
+                        </li>
+                        <li>
+                            <i class="fas fa-language"></i>
+                            Atendimento em Português
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Investimento -->
+    <div class="investment-modal-overlay" id="investmentModal">
+        <div class="investment-modal">
+            <div class="investment-modal-header">
+                <button class="close-modal" id="closeModal">✕</button>
+                <div class="text-center">
+                    <i id="modalIcon" class="modal-platform-icon"></i>
+                    <h3 id="modalTitle" class="mb-2"></h3>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <small class="text-white-50">Investimento</small>
+                            <div class="fw-bold" id="modalInvestment"></div>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-white-50">Por Dia</small>
+                            <div class="fw-bold" id="modalDaily"></div>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-white-50">Lucro Total</small>
+                            <div class="fw-bold" id="modalTotal"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="investment-modal-body">
+                <h5 class="mb-3 text-center">
+                    <i class="fas fa-credit-card me-2 text-primary"></i>
+                    Escolha o Método de Pagamento
+                </h5>
+
+                <!-- M-Pesa Option -->
+                <div class="deposit-method" data-method="mpesa">
+                    <div class="d-flex align-items-center">
+                        <img src="img\M-pesa.jpeg" alt="M-Pesa" style="height: 50px; border-radius: 8px;">
+                        <div class="ms-3">
+                            <h6 class="mb-1 fw-bold">M-Pesa</h6>
+                            <small class="text-muted">Pagamento via M-Pesa</small>
+                        </div>
+                        <i class="fas fa-chevron-right ms-auto text-muted"></i>
+                    </div>
+                    
+                    <div class="payment-info" id="mpesaInfo">
+                        <div class="instruction-step">
+                            <i class="fas fa-mobile-alt me-2 text-primary"></i>
+                            <strong>1. Número para depósito:</strong>
+                            <div class="copy-number mt-2" onclick="copyToClipboard('840134955')" title="Clique para copiar">
+                                840134955
+                            </div>
+                        </div>
+                        
+                        <div class="instruction-step">
+                            <i class="fas fa-money-bill-wave me-2 text-success"></i>
+                            <strong>2. Valor a depositar:</strong>
+                            <div class="fw-bold text-success fs-5" id="mpesaAmount">250 MZN</div>
+                        </div>
+                        
+                        <div class="instruction-step">
+                            <i class="fas fa-info-circle me-2 text-info"></i>
+                            <strong>3. Como fazer o depósito:</strong>
+                            <ul class="mt-2 mb-0">
+                                <li>Digite *150# no seu celular</li>
+                                <li>Selecione "Enviar Dinheiro"</li>
+                                <li>Digite o número: 840134955</li>
+                                <li>Confirme o valor exato do investimento</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <a href="https://wa.me/258840134955?text=Olá! Acabei de fazer o depósito via M-Pesa para o investimento. Segue o comprovativo em anexo." 
+                               class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                Enviar Comprovativo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- E-Mola Option -->
+                <div class="deposit-method" data-method="emola">
+                    <div class="d-flex align-items-center">
+                        <img src="img\E-mola.jpeg" alt="E-Mola" style="height: 50px; border-radius: 8px;">
+                        <div class="ms-3">
+                            <h6 class="mb-1 fw-bold">E-Mola</h6>
+                            <small class="text-muted">Pagamento via E-Mola</small>
+                        </div>
+                        <i class="fas fa-chevron-right ms-auto text-muted"></i>
+                    </div>
+                    
+                    <div class="payment-info" id="emolaInfo">
+                        <div class="instruction-step">
+                            <i class="fas fa-mobile-alt me-2 text-primary"></i>
+                            <strong>1. Número para depósito:</strong>
+                            <div class="copy-number mt-2" onclick="copyToClipboard('864336685')" title="Clique para copiar">
+                                864336685
+                            </div>
+                        </div>
+                        
+                        <div class="instruction-step">
+                            <i class="fas fa-money-bill-wave me-2 text-success"></i>
+                            <strong>2. Valor a depositar:</strong>
+                            <div class="fw-bold text-success fs-5" id="emolaAmount">250 MZN</div>
+                        </div>
+                        
+                        <div class="instruction-step">
+                            <i class="fas fa-info-circle me-2 text-info"></i>
+                            <strong>3. Como fazer o depósito:</strong>
+                            <ul class="mt-2 mb-0">
+                                <li>Abra o app E-Mola ou digite *898#</li>
+                                <li>Selecione "Transferir Dinheiro"</li>
+                                <li>Digite o número: 864336685</li>
+                                <li>Confirme o valor exato do investimento</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <a href="https://wa.me/258864336685?text=Olá! Acabei de fazer o depósito via E-Mola para o investimento. Segue o comprovativo em anexo." 
+                               class="whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                Enviar Comprovativo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-light rounded">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-shield-alt text-success me-2"></i>
+                        <small class="text-muted">
+                            <strong>100% Seguro:</strong> Após confirmar o pagamento via WhatsApp, seu investimento será ativado em até 24 horas.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+   const firebaseConfig = {
+  apiKey: "AIzaSyC2f4u23zFNN_z_maM66iycemf77-2Buys",
+  authDomain: "pub-f5372.firebaseapp.com",
+  projectId: "pub-f5372",
+  storageBucket: "pub-f5372.firebasestorage.app",
+  messagingSenderId: "693816443318",
+  appId: "1:693816443318:web:ca2608d68fec5499578117"
+};
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        let timerInterval = null;
+        let surveyTimerInterval = null;
+        
+        // Variáveis para controle dos timers das planilhas de investimento
+        let investmentTimers = {};
+
+        // Configurações dos valores por plataforma
+        const investmentConfig = {
+            tiktok: { value: 4, maxClicks: 4 },
+            instagram: { value: 8, maxClicks: 4 },
+            youtube: { value: 16, maxClicks: 4 },
+            facebook: { value: 80, maxClicks: 4 },
+            google: { value: 160, maxClicks: 4 }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ui = {
+                loader: document.getElementById('loader'),
+                body: document.querySelector('body'),
+                userNameNav: document.getElementById('userNameNav'),
+                userNameProfile: document.getElementById('userNameProfile'),
+                totalBalance: document.getElementById('totalBalance'),
+                totalEarnings: document.getElementById('totalEarnings'),
+                totalWithdrawals: document.getElementById('totalWithdrawals'),
+                activeInvestments: document.getElementById('activeInvestments'),
+                saqueForm: document.getElementById('saque-form'),
+                saqueContainer: document.getElementById('saque-container'),
+                saqueValor: document.getElementById('saque-valor'),
+                saqueNumero: document.getElementById('saque-numero'),
+                paymentRadios: document.querySelectorAll('input[name="payment"]'),
+                countdownContainer: document.getElementById('countdown-container'),
+                timerDisplay: document.querySelector('#countdown-container .timer-display'),
+                dailySurveyLink: document.getElementById('dailySurveyLink'),
+                logoutButton: document.getElementById('logoutButton'),
+                surveySection: document.getElementById('survey-section'),
+                dailySurveyForm: document.getElementById('dailySurveyForm'),
+                submitButton: document.getElementById('submitButton'),
+                buttonIcon: document.querySelector('.button-icon'),
+                lockOverlay: document.getElementById('survey-lock-overlay'),
+                firstUseOverlay: document.getElementById('first-use-overlay'),
+                surveyTimerDisplay: document.querySelector('#survey-lock-overlay #timer-display'),
+                investmentSection: document.getElementById('investment-section'),
+                // Elementos do modal de investimento
+                investmentModal: document.getElementById('investmentModal'),
+                closeModal: document.getElementById('closeModal'),
+                modalIcon: document.getElementById('modalIcon'),
+                modalTitle: document.getElementById('modalTitle'),
+                modalInvestment: document.getElementById('modalInvestment'),
+                modalDaily: document.getElementById('modalDaily'),
+                modalTotal: document.getElementById('modalTotal'),
+                depositMethods: document.querySelectorAll('.deposit-method'),
+                mpesaAmount: document.getElementById('mpesaAmount'),
+                emolaAmount: document.getElementById('emolaAmount'),
+                // Elementos das planilhas de investimento
+                investmentDashboards: document.getElementById('investment-dashboards')
+            };
+
+            // ### FUNÇÕES DAS PLANILHAS DE INVESTIMENTO ###
+            
+            // Função para clicar em um anúncio
+            window.clickAd = async (platform, adNumber) => {
+                const user = auth.currentUser;
+                if (!user) return;
+
+                const button = document.getElementById(`${platform}-ads-${adNumber}`);
+                if (button.disabled) return;
+
+                try {
+                    const userRef = db.collection('users').doc(user.uid);
+                    const userDoc = await userRef.get();
+                    const userData = userDoc.data();
+                    
+                    // Verificar se o usuário tem esse investimento ativo
+                    if (!userData.activeInvestments || !userData.activeInvestments[platform]) {
+                        alert('Investimento não encontrado!');
+                        return;
+                    }
+
+                    const investmentData = userData.activeInvestments[platform];
+                    const today = new Date().toDateString();
+                    
+                    // Verificar se já clicou 4 vezes hoje
+                    if (investmentData.lastClickDate === today && investmentData.dailyClicks >= investmentConfig[platform].maxClicks) {
+                        alert('Você já clicou no máximo de anúncios hoje!');
+                        return;
+                    }
+
+                    // Resetar contador se for um novo dia
+                    if (investmentData.lastClickDate !== today) {
+                        investmentData.dailyClicks = 0;
+                    }
+
+                    // Incrementar saldo e contador
+                    const earnValue = investmentConfig[platform].value;
+                    const newDailyClicks = investmentData.dailyClicks + 1;
+                    const newBalance = investmentData.balance + earnValue;
+
+                    // Atualizar no Firebase
+                    await userRef.update({
+                        balance: firebase.firestore.FieldValue.increment(earnValue),
+                        totalEarnings: firebase.firestore.FieldValue.increment(earnValue),
+                        [`activeInvestments.${platform}.balance`]: newBalance,
+                        [`activeInvestments.${platform}.dailyClicks`]: newDailyClicks,
+                        [`activeInvestments.${platform}.lastClickDate`]: today
+                    });
+
+                    // Desabilitar o botão
+                    button.disabled = true;
+                    button.innerHTML = '<i class="fas fa-check"></i> CONCLUÍDO';
+
+                    // Atualizar a UI
+                    updateInvestmentDashboard(platform, { ...investmentData, balance: newBalance, dailyClicks: newDailyClicks });
+
+                    // Se clicou 4 vezes, iniciar o cooldown de 24h
+                    if (newDailyClicks >= investmentConfig[platform].maxClicks) {
+                        const nextAvailable = new Date();
+                        nextAvailable.setDate(nextAvailable.getDate() + 1);
+                        nextAvailable.setHours(0, 0, 0, 0); // Próxima meia-noite
+                        
+                        startInvestmentCooldown(platform, nextAvailable.getTime());
+                    }
+
+                    alert(`+${earnValue} MZN adicionado ao seu saldo!`);
+
+                } catch (error) {
+                    console.error('Erro ao clicar no anúncio:', error);
+                    alert('Erro ao processar o clique. Tente novamente.');
+                }
+            };
+
+            // Função para atualizar a planilha de investimento
+            function updateInvestmentDashboard(platform, data) {
+                const balanceElement = document.getElementById(`${platform}-balance`);
+                const clickedCountElement = document.getElementById(`${platform}-clicked-count`);
+                
+                if (balanceElement) {
+                    balanceElement.textContent = `+${data.balance.toFixed(2)}`;
+                }
+                
+                if (clickedCountElement) {
+                    clickedCountElement.textContent = `${data.dailyClicks}/${investmentConfig[platform].maxClicks}`;
+                }
+
+                // Atualizar estado dos botões
+                const today = new Date().toDateString();
+                const isToday = data.lastClickDate === today;
+                const remainingClicks = investmentConfig[platform].maxClicks - (isToday ? data.dailyClicks : 0);
+
+                for (let i = 1; i <= investmentConfig[platform].maxClicks; i++) {
+                    const button = document.getElementById(`${platform}-ads-${i}`);
+                    if (button) {
+                        if (isToday && i <= data.dailyClicks) {
+                            button.disabled = true;
+                            button.innerHTML = '<i class="fas fa-check"></i> CONCLUÍDO';
+                        } else if (i <= remainingClicks + (isToday ? data.dailyClicks : 0)) {
+                            button.disabled = false;
+                            button.innerHTML = '<i class="fas fa-play"></i> ADS';
+                        }
+                    }
+                }
+
+                // Mostrar/esconder cooldown
+                if (isToday && data.dailyClicks >= investmentConfig[platform].maxClicks) {
+                    const nextDay = new Date();
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    nextDay.setHours(0, 0, 0, 0);
+                    startInvestmentCooldown(platform, nextDay.getTime());
+                } else {
+                    const cooldownElement = document.getElementById(`${platform}-cooldown`);
+                    if (cooldownElement) cooldownElement.style.display = 'none';
+                }
+            }
+
+            // Função para iniciar o cooldown de investimento
+            function startInvestmentCooldown(platform, endTime) {
+                const cooldownElement = document.getElementById(`${platform}-cooldown`);
+                const timerElement = document.getElementById(`${platform}-timer`);
+                
+                if (!cooldownElement || !timerElement) return;
+
+                cooldownElement.style.display = 'block';
+                
+                // Limpar timer anterior se existir
+                if (investmentTimers[platform]) {
+                    clearInterval(investmentTimers[platform]);
+                }
+
+                investmentTimers[platform] = setInterval(() => {
+                    const distance = endTime - new Date().getTime();
+                    if (distance < 0) {
+                        clearInterval(investmentTimers[platform]);
+                        cooldownElement.style.display = 'none';
+                        
+                        // Reativar botões
+                        for (let i = 1; i <= investmentConfig[platform].maxClicks; i++) {
+                            const button = document.getElementById(`${platform}-ads-${i}`);
+                            if (button) {
+                                button.disabled = false;
+                                button.innerHTML = '<i class="fas fa-play"></i> ADS';
+                            }
+                        }
+                        
+                        // Resetar contador visual
+                        const clickedCountElement = document.getElementById(`${platform}-clicked-count`);
+                        if (clickedCountElement) {
+                            clickedCountElement.textContent = `0/${investmentConfig[platform].maxClicks}`;
+                        }
+                        
+                        return;
+                    }
+
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+
+            // ### FUNÇÕES DO MODAL DE INVESTIMENTO ###
+            function openInvestmentModal(investmentData) {
+                const data = JSON.parse(investmentData);
+                
+                // Preencher dados do modal
+                ui.modalIcon.className = `${data.icon} modal-platform-icon ${data.iconClass}`;
+                ui.modalTitle.textContent = data.title;
+                ui.modalInvestment.textContent = `${data.investment} MZN`;
+                ui.modalDaily.textContent = `${data.dailyReturn} MZN`;
+                ui.modalTotal.textContent = `${data.totalProfit} MZN`;
+                
+                // Atualizar valores nos métodos de pagamento
+                ui.mpesaAmount.textContent = `${data.investment} MZN`;
+                ui.emolaAmount.textContent = `${data.investment} MZN`;
+                
+                // Mostrar modal
+                ui.investmentModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Previne scroll do fundo
+            }
+
+            function closeInvestmentModal() {
+                ui.investmentModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Reset payment methods
+                ui.depositMethods.forEach(method => {
+                    method.classList.remove('active');
+                    const info = method.querySelector('.payment-info');
+                    if (info) info.classList.remove('show');
+                });
+            }
+
+            // Event listeners para abrir modal de investimento
+            document.querySelectorAll('.investment-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'BUTTON') return;
+                    e.preventDefault();
+                    const investmentData = card.getAttribute('data-investment');
+                    openInvestmentModal(investmentData);
+                });
+            });
+
+            // Event listeners para fechar modal
+            ui.closeModal.addEventListener('click', closeInvestmentModal);
+            ui.investmentModal.addEventListener('click', (e) => {
+                if (e.target === ui.investmentModal) {
+                    closeInvestmentModal();
+                }
+            });
+
+            // Event listeners para métodos de pagamento
+            ui.depositMethods.forEach(method => {
+                method.addEventListener('click', () => {
+                    // Remove active de todos
+                    ui.depositMethods.forEach(m => {
+                        m.classList.remove('active');
+                        const info = m.querySelector('.payment-info');
+                        if (info) info.classList.remove('show');
+                    });
+                    
+                    // Ativa o clicado
+                    method.classList.add('active');
+                    const paymentInfo = method.querySelector('.payment-info');
+                    if (paymentInfo) {
+                        paymentInfo.classList.add('show');
+                    }
+                });
+            });
+
+            // Fechar modal com ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && ui.investmentModal.style.display === 'flex') {
+                    closeInvestmentModal();
+                }
+            });
+
+            // ### FUNÇÕES ORIGINAIS DO DASHBOARD ###
+            function updateDashboardUI(data) {
+                const userName = data.name || 'Usuário';
+                const currentBalance = data.balance || 0;
+                ui.userNameNav.textContent = userName;
+                ui.userNameProfile.textContent = userName;
+                ui.totalBalance.textContent = currentBalance.toFixed(2);
+                ui.totalEarnings.textContent = (data.totalEarnings || 0).toFixed(2);
+                ui.totalWithdrawals.textContent = (data.totalWithdrawals || 0).toFixed(2);
+                ui.activeInvestments.textContent = Object.keys(data.activeInvestments || {}).length;
+                ui.saqueValor.max = currentBalance.toFixed(2);
+
+                // Mostrar/esconder planilhas de investimento
+                if (data.activeInvestments && Object.keys(data.activeInvestments).length > 0) {
+                    ui.investmentDashboards.style.display = 'block';
+                    
+                    // Atualizar cada planilha ativa
+                    Object.keys(data.activeInvestments).forEach(platform => {
+                        const dashboardElement = document.getElementById(`${platform}-dashboard`);
+                        if (dashboardElement) {
+                            dashboardElement.style.display = 'block';
+                            updateInvestmentDashboard(platform, data.activeInvestments[platform]);
+                        }
+                    });
+                } else {
+                    ui.investmentDashboards.style.display = 'none';
+                }
+
+                if (data.withdrawalTimestamp) {
+                    const endTime = data.withdrawalTimestamp.toDate().getTime() + (30 * 1000); 
+                    if (new Date().getTime() < endTime) {
+                        startCountdown(endTime);
+                        if (!data.inqueritoBonusRecebido) {
+                           startSurveyCountdown(endTime);
+                        }
+                    }
+                }
+            }
+
+            function startCountdown(endTime) {
+                ui.saqueContainer.style.display = 'none';
+                ui.countdownContainer.style.display = 'block';
+                if (timerInterval) clearInterval(timerInterval);
+
+                timerInterval = setInterval(() => {
+                    const distance = endTime - new Date().getTime();
+                    if (distance < 0) {
+                        clearInterval(timerInterval);
+                        ui.countdownContainer.style.display = 'none';
+                        ui.saqueContainer.style.display = 'block';
+                        return;
+                    }
+                    const h = Math.floor((distance % (1000*60*60*24)) / (1000*60*60)).toString().padStart(2, '0');
+                    const m = Math.floor((distance % (1000*60*60)) / (1000*60)).toString().padStart(2, '0');
+                    const s = Math.floor((distance % (1000*60)) / 1000).toString().padStart(2, '0');
+                    ui.timerDisplay.textContent = `${h}:${m}:${s}`;
+                }, 1000);
+            }
+
+            function setSurveyState(state) {
+                ui.firstUseOverlay.style.display = state === 'first-use' ? 'flex' : 'none';
+                ui.lockOverlay.style.display = state === 'locked' ? 'flex' : 'none';
+                ui.submitButton.disabled = state !== 'available';
+                if (state === 'locked' || state === 'first-use') {
+                    ui.buttonIcon.innerHTML = '<i class="fas fa-lock"></i>';
+                } else {
+                    ui.buttonIcon.innerHTML = '<i class="fas fa-gift"></i>';
+                }
+            }
+
+            function startSurveyCountdown(endTime) {
+                setSurveyState('locked');
+                if (surveyTimerInterval) clearInterval(surveyTimerInterval);
+                
+                surveyTimerInterval = setInterval(() => {
+                    const distance = endTime - new Date().getTime();
+                    if (distance < 0) {
+                        clearInterval(surveyTimerInterval); 
+                        setSurveyState('available'); 
+                        ui.surveyTimerDisplay.textContent = "00:00:00"; 
+                        return;
+                    }
+                    const h = Math.floor((distance%(1000*60*60*24))/(1000*60*60)).toString().padStart(2,'0');
+                    const m = Math.floor((distance%(1000*60*60))/(1000*60)).toString().padStart(2,'0');
+                    const s = Math.floor((distance%(1000*60))/1000).toString().padStart(2,'0');
+                    ui.surveyTimerDisplay.textContent = `${h}:${m}:${s}`;
+                }, 1000);
+            }
+
+auth.onAuthStateChanged(async (user) => {
+    if (!user) {
+        window.location.replace('login.html');
+        return;
+    }
+
+    try {
+        // Listener principal para os dados do usuário
+        db.collection('users').doc(user.uid).onSnapshot(userDoc => {
+            if (userDoc.exists) {
+                const userData = userDoc.data();
+
+                // Lógica de Redirecionamento e Inquérito (NÃO AFETADA)
+                if (userData.surveyCompleted !== true && window.location.pathname.indexOf('ganhe-dinheiro.html') === -1) {
+                    alert("Por favor, complete o inquérito inicial primeiro.");
+                    window.location.replace('ganhe-dinheiro.html');
+                    return;
+                }
+                updateDashboardUI(userData); // Atualiza saldo, nome, etc.
+
+                if (userData.inqueritoBonusRecebido === true) {
+                    ui.surveySection.style.display = 'none';
+                } else {
+                    ui.surveySection.style.display = 'block';
+                    if (!userData.withdrawalTimestamp) {
+                        setSurveyState('first-use');
+                    } else {
+                        const thirtySeconds = 30 * 1000;
+                        const lastActionTime = userData.withdrawalTimestamp.toDate().getTime();
+                        const endTime = lastActionTime + thirtySeconds;
+                        const currentTime = new Date().getTime();
+                        if (currentTime < endTime) {
+                            startSurveyCountdown(endTime);
+                        } else {
+                            setSurveyState('available');
+                        }
+                    }
+                }
+
+                // Lógica NOVA E INTEGRADA para controle da seção de saque
+                const withdrawalsQuery = db.collection('withdrawals')
+                    .where('userId', '==', user.uid)
+                    .where('status', '==', 'pending');
+
+                withdrawalsQuery.onSnapshot(snapshot => {
+                    const hasPendingWithdrawal = !snapshot.empty;
+
+                    if (hasPendingWithdrawal) {
+                        // Estado 1: Saque pendente
+                        ui.saqueContainer.style.display = 'none';
+                        ui.countdownContainer.style.display = 'none';
+                        ui.pendingContainer.style.display = 'block';
+                    } else {
+                        // Não há saques pendentes, verificar cooldown
+                        ui.pendingContainer.style.display = 'none';
+                        
+                        if (userData.withdrawalTimestamp) {
+                            const cooldownPeriod = 30 * 1000;
+                            const endTime = userData.withdrawalTimestamp.toDate().getTime() + cooldownPeriod;
+                            
+                            if (new Date().getTime() < endTime) {
+                                // Estado 2: Em cooldown
+                                startCountdown(endTime);
+                            } else {
+                                // Estado 3: Disponível para sacar
+                                ui.saqueContainer.style.display = 'block';
+                                ui.countdownContainer.style.display = 'none';
+                            }
+                        } else {
+                            // Estado 3: Disponível (nunca sacou)
+                            ui.saqueContainer.style.display = 'block';
+                            ui.countdownContainer.style.display = 'none';
+                        }
+                    }
+                }, err => {
+                    console.error("Erro ao verificar saques pendentes:", err);
+                    ui.saqueContainer.style.display = 'block'; // Fallback em caso de erro
+                });
+
+            } else {
+                alert("Erro: Dados da conta não encontrados. Faça login novamente.");
+                auth.signOut();
+            }
+
+            ui.loader.style.display = 'none';
+            ui.body.style.display = 'block';
+
+        }, err => {
+            console.error("Erro crítico ao carregar dados do usuário:", err);
+            alert("Não foi possível carregar os dados do seu painel. Verifique sua conexão ou tente novamente.");
+            ui.loader.style.display = 'none';
+            ui.body.style.display = 'block';
+        });
+
+    } catch (error) {
+        console.error("Erro ao configurar listeners:", error);
+    }
+});
+            
+            
+            // ### LÓGICA DE VALIDAÇÃO DE NÚMERO DE SAQUE ###
+            ui.paymentRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const paymentMethod = e.target.value;
+                    ui.saqueNumero.disabled = false;
+                    ui.saqueNumero.value = ''; // Limpa o campo ao trocar
+
+                    if (paymentMethod === 'M-Pesa') {
+                        ui.saqueNumero.pattern = "8[45][0-9]{7}";
+                        ui.saqueNumero.title = "O número de M-Pesa deve começar com 84 ou 85 e ter 9 dígitos.";
+                        ui.saqueNumero.placeholder = "84/85 XXXXXXX";
+                    } else if (paymentMethod === 'E-Mola') {
+                        ui.saqueNumero.pattern = "8[67][0-9]{7}";
+                        ui.saqueNumero.title = "O número de E-Mola deve começar com 86 ou 87 e ter 9 dígitos.";
+                        ui.saqueNumero.placeholder = "86/87 XXXXXXX";
+                    }
+                    ui.saqueNumero.focus();
+                });
+            });
+
+            // ############# LÓGICA DE SAQUE MODIFICADA #############
+            ui.saqueForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const user = auth.currentUser;
+                if (!user) return;
+
+                if (!ui.saqueNumero.checkValidity()) {
+                    alert(ui.saqueNumero.title || "Por favor, insira um número de telefone válido (9 dígitos)."); 
+                    return;
+                }
+                
+                const saqueAmount = parseFloat(ui.saqueValor.value);
+                const currentBalance = parseFloat(ui.totalBalance.textContent);
+                
+                const selectedPaymentMethod = document.querySelector('input[name="payment"]:checked');
+                if (!selectedPaymentMethod) {
+                     alert("Por favor, selecione primeiro um método de pagamento."); return;
+                }
+
+                if (isNaN(saqueAmount)) {
+                    alert("Por favor, insira um valor de saque válido."); return;
+                }
+                if (saqueAmount < 16) {
+                    alert("O valor mínimo para saque é de 16.00 MZN."); return;
+                }
+                if (saqueAmount > currentBalance) {
+                    alert(`Saldo insuficiente. O valor máximo que você pode sacar é ${currentBalance.toFixed(2)} MZN.`); return;
+                }
+                
+                if (!confirm(`Confirmar solicitação de saque de ${saqueAmount.toFixed(2)} MZN? O valor ficará pendente até ser aprovado por um administrador.`)) return;
+
+                const submitButton = ui.saqueForm.querySelector('button');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
+
+                try {
+                    const paymentMethod = selectedPaymentMethod.value;
+                    const userName = ui.userNameProfile.textContent;
+                    const phoneNumber = ui.saqueNumero.value;
+
+                    // 1. Criar um pedido de saque na coleção 'withdrawals'
+                    await db.collection('withdrawals').add({
+                        userId: user.uid,
+                        userName: userName,
+                        amount: saqueAmount,
+                        paymentMethod: paymentMethod,
+                        phoneNumber: phoneNumber,
+                        status: 'pending',
+                        requestedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    // 2. Atualizar o timestamp do usuário para iniciar o cooldown
+                    await db.collection('users').doc(user.uid).update({
+                        withdrawalTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    const endTime = new Date().getTime() + (30 * 1000);
+                    startCountdown(endTime);
+                    startSurveyCountdown(endTime);
+                    
+                    alert(`Sua solicitação de saque de ${saqueAmount.toFixed(2)} MZN foi enviada com sucesso e está aguardando aprovação.`);
+                    ui.saqueValor.value = '';
+                    ui.saqueNumero.value = '';
+                    selectedPaymentMethod.checked = false;
+
+                } catch (error) {
+                    console.error("Erro na solicitação de saque:", error);
+                    alert("Não foi possível processar a sua solicitação de saque: " + error.message);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Sacar';
+                }
+            });
+            // ############# FIM DA LÓGICA DE SAQUE MODIFICADA #############
+
+            ui.dailySurveyForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const currentUser = auth.currentUser;
+                if (!currentUser || ui.submitButton.disabled) {
+                    alert("Inquérito não disponível no momento.");
+                    return;
+                }
+
+                const originalButtonText = ui.submitButton.querySelector('.button-text').textContent;
+                ui.submitButton.querySelector('.button-text').textContent = 'Processando...';
+                ui.buttonIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                ui.submitButton.disabled = true;
+                
+                try {
+                    const userDocRef = db.collection('users').doc(currentUser.uid);
+                    await userDocRef.update({
+                        balance: firebase.firestore.FieldValue.increment(25),
+                        totalEarnings: firebase.firestore.FieldValue.increment(25),
+                        inqueritoBonusRecebido: true,
+                        withdrawalTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    ui.surveySection.style.display = 'none';
+                    const endTime = new Date().getTime() + (30 * 1000);
+                    startCountdown(endTime);
+                    
+                    alert("🎉 Parabéns! Seu bônus de 25 MZN foi adicionado com sucesso!\n\nNós da 860Pub provamos que somos uma plataforma real e 100% segura. O seu ganho é a nossa prioridade.\n\nQuer continuar a ganhar dinheiro todos os dias? Explore a seção 'Invista e Acelere' abaixo e comece a multiplicar seus rendimentos de forma segura!");
+                    ui.investmentSection.scrollIntoView({ behavior: 'smooth' });
+
+                    try {
+                        const formData = new FormData(ui.dailySurveyForm);
+                        const surveyAnswers = Object.fromEntries(formData.entries());
+                        surveyAnswers.userId = currentUser.uid;
+                        surveyAnswers.submittedAt = firebase.firestore.FieldValue.serverTimestamp();
+                        await db.collection('daily_surveys').add(surveyAnswers);
+                    } catch (surveyError) {
+                        console.error("Falha não-crítica ao salvar respostas do inquérito:", surveyError);
+                    }
+
+                } catch (error) {
+                    console.error("Erro crítico ao adicionar bônus ao usuário:", error);
+                    alert("❌ Erro ao processar o seu bônus. Por favor, verifique sua conexão e tente novamente.");
+                    
+                    ui.submitButton.disabled = false;
+                    ui.submitButton.querySelector('.button-text').textContent = originalButtonText;
+                    ui.buttonIcon.innerHTML = '<i class="fas fa-gift"></i>';
+                }
+            });
+
+            ui.dailySurveyLink?.addEventListener('click', (e) => {
+                e.preventDefault();
+                ui.surveySection.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            ui.logoutButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (timerInterval) clearInterval(timerInterval);
+                if (surveyTimerInterval) clearInterval(surveyTimerInterval);
+                // Limpar timers de investimento
+                Object.values(investmentTimers).forEach(timer => clearInterval(timer));
+                auth.signOut();
+            });
+        });
+
+        // ### FUNÇÃO GLOBAL PARA COPIAR NÚMEROS ###
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyNotification('Número copiado!');
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopyNotification('Número copiado!');
+            } catch (err) {
+                showCopyNotification('Erro ao copiar. Copie manualmente: ' + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showCopyNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-weight: bold;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                animation: slideInRight 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-in forwards';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 2000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        document.querySelectorAll('input[name="payment"]').forEach(el => {
+    el.addEventListener('change', function() {
+        const metodo = this.value;
+        if (["Visa", "MasterCard", "PayPal"].includes(metodo)) {
+            alert("⚠️ O método " + metodo + " ainda não está disponível na sua região. Use M-Pesa ou E-Mola.");
+            this.checked = false; // desmarca
+        } else {
+            document.getElementById("saque-numero").disabled = false;
+        }
+    });
+});
+    </script>
+</body>
+</html>

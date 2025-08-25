@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcerias Comerciais - 860Pub</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+    
+    <style>
+        :root {
+            --primary-color: #2c5aa0;
+            --secondary-color: #28a745;
+            --accent-color: #ffc107;
+            --dark-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar .nav-link.active {
+            color: var(--primary-color) !important;
+            font-weight: 600;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, rgba(44, 90, 160, 0.9), rgba(74, 123, 200, 0.8)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80') no-repeat center center;
+            background-size: cover;
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+        
+        .section-title {
+            font-weight: 700; color: var(--dark-color); margin-bottom: 30px; position: relative; padding-bottom: 15px;
+        }
+        .section-title::after {
+            content: ''; position: absolute; display: block; width: 60px; height: 4px; background: var(--primary-color); bottom: 0; left: 50%; transform: translateX(-50%);
+        }
+
+        .pricing-card {
+            background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); padding: 2.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; border: 2px solid transparent;
+        }
+        
+        .pricing-card.popular {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card .popular-badge {
+            position: absolute; top: -1px; right: -1px; background: var(--primary-color); color: white;
+            padding: 8px 20px; font-weight: bold; border-bottom-left-radius: 20px;
+        }
+
+        .pricing-card h3 { color: var(--primary-color); font-weight: 700; }
+        .price { font-size: 2rem; font-weight: 700; color: var(--dark-color); }
+        .price .currency { font-size: 1.5rem; vertical-align: super; }
+        .price .period { font-size: 1rem; color: #6c757d; font-weight: 400; }
+        .features-list { list-style: none; padding-left: 0; }
+        .features-list li { padding: 10px 0; border-bottom: 1px solid #e9ecef; }
+        .features-list li .fa-check { color: var(--secondary-color); margin-right: 10px; }
+        
+        .btn-price { background: var(--primary-color); color: white; border-radius: 30px; padding: 12px 30px; font-weight: bold; width: 100%; transition: background-color 0.3s ease; }
+        .btn-price:hover { background: #1e3f73; color: white; }
+        .btn-price-popular { background: var(--secondary-color); }
+        .btn-price-popular:hover { background: #1c7430; }
+
+        .service-icon { font-size: 3rem; color: var(--primary-color); }
+        .footer { background: var(--dark-color); color: white; padding: 40px 0 20px; }
+
+        /* Novos estilos para o painel de parcerias */
+        .partnerships-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 80px 0;
+        }
+
+        .partnership-card {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .partnership-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .partnership-card:hover::before {
+            left: 100%;
+        }
+
+        .partnership-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+
+        .partnership-card.available {
+            border-color: var(--secondary-color);
+        }
+
+        .partnership-card.available::after {
+            content: 'Disponível em Moçambique';
+            position: absolute;
+            top: 15px;
+            right: -35px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+        }
+
+        .platform-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            transition: all 0.3s ease;
+        }
+
+        .partnership-card:hover .platform-logo {
+            transform: scale(1.1);
+        }
+
+        .platform-logo.tiktok { background: linear-gradient(135deg, #ff0050, #000); color: white; }
+        .platform-logo.facebook { background: linear-gradient(135deg, #1877f2, #42a5f5); color: white; }
+        .platform-logo.google { background: linear-gradient(135deg, #4285f4, #34a853); color: white; }
+        .platform-logo.mpesa { background: linear-gradient(135deg, #00a651, #007a3d); color: white; }
+        .platform-logo.emola { background: linear-gradient(135deg, #ff6b35, #f7931e); color: white; }
+
+        .platform-stats {
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .platform-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .platform-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .btn-partnership {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-partnership:hover {
+            background: #1e3f73;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 90, 160, 0.3);
+        }
+
+        .btn-partnership:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .availability-badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .badge-available {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+        }
+
+        .badge-global {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+            border: 1px solid #6c757d;
+        }
+
+        /* Modal styles */
+        .modal-header {
+            background: var(--primary-color);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: 700;
+        }
+
+        .close-btn {
+            color: white;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .platform-logo {
+                width: 100px;
+                height: 100px;
+                font-size: 3rem;
+            }
+
+            .platform-title {
+                font-size: 1.5rem;
+            }
+
+            .partnership-card {
+                padding: 30px 20px;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-bullhorn me-2"></i>860Pub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre Nós</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="parcerias.html">Parcerias Comerciais</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ganhe-dinheiro.html">Ganhe Dinheiro</a></li>
+                    <!-- Menu dinâmico: Login ou Perfil do Usuário -->
+                    <li class="nav-item" id="login-link">
+                        <a class="nav-link btn btn-outline-primary ms-2 px-3" href="login.html">Entrar</a>
+                    </li>
+                    <li class="nav-item dropdown" id="user-menu" style="display: none;">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i><span id="userName"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarUserDropdown">
+                            <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logoutButton">Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo da página -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Impulsione Seu Negócio</h1>
+            <p class="lead">Soluções de publicidade estratégica para maximizar seu alcance e conversões.</p>
+        </div>
+    </header>
+
+    <!-- Painel de Parcerias -->
+    <section class="partnerships-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Painel de Parcerias</h2>
+                <p class="lead text-muted">Conecte-se às principais plataformas digitais do mundo</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- TikTok -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="partnership-card" data-platform="tiktok">
+                        <span class="availability-badge badge-global">Plataforma Global</span>
+                        <div class="platform-logo tiktok">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <h3 class="platform-title">TikTok</h3>
+                        <p class="platform-description">Alcance milhões de usuários através da plataforma de vídeos curtos mais popular do mundo.</p>
+                        
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Anúncios Diários:</span>
+                                <span class="stat-value">3,027</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Anúncios Disponíveis:</span>
+                                <span class="stat-value">90,315</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Preço por Anúncio:</span>
+                                <span class="stat-value">4 MZN</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-partnership" disabled>Em Breve</button>
+                    </div>
+                </div>
+
+                <!-- Facebook -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="partnership-card" data-platform="facebook">
+                        <span class="availability-badge badge-global">Plataforma Global</span>
+                        <div class="platform-logo facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <h3 class="platform-title">Facebook</h3>
+                        <p class="platform-description">Conecte-se à maior rede social do mundo e expanda seu alcance publicitário.</p>
+                        
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Anúncios Diários:</span>
+                                <span class="stat-value">2,065</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Anúncios Disponíveis:</span>
+                                <span class="stat-value">8,734</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Preço por Anúncio:</span>
+                                <span class="stat-value">320 MZN</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-partnership" disabled>Em Breve</button>
+                    </div>
+                </div>
+
+                <!-- Google -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="partnership-card" data-platform="google">
+                        <span class="availability-badge badge-global">Plataforma Global</span>
+                        <div class="platform-logo google">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <h3 class="platform-title">Google Ads</h3>
+                        <p class="platform-description">Apareça nos resultados de pesquisa do Google e alcance clientes no momento certo.</p>
+                        
+                        <div class="platform-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Anúncios Diários:</span>
+                                <span class="stat-value">7,286</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Anúncios Disponíveis:</span>
+                                <span class="stat-value">6,528</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Preço por Anúncio:</span>
+                                <span class="stat-value">640 MZN</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-partnership" disabled>Em Breve</button>
+                    </div>
+                </div>
+
+<!-- M-Pesa -->
+<div class="col-lg-6 col-md-6">
+    <div class="partnership-card available" data-platform="mpesa">
+        <span class="availability-badge badge-available">Disponível em Moçambique</span>
+        <div class="platform-logo mpesa text-center">
+            <img src="img\M-pesa.jpeg" alt="M-Pesa Logo" style="width:80px; height:auto; margin-bottom:10px;">
+        </div>
+        <h3 class="platform-title">M-Pesa</h3>
+        <p class="platform-description">Carteira móvel mais utilizada em Moçambique. Facilita transações e pagamentos para seus clientes.</p>
+        
+        <div class="platform-stats">
+            <div class="stat-item">
+                <span class="stat-label">Usuários Ativos:</span>
+                <span class="stat-value">8.5M+</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Transações Mensais:</span>
+                <span class="stat-value">120M+</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Taxa de Integração:</span>
+                <span class="stat-value">2.5%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- E-Mola -->
+<div class="col-lg-6 col-md-6">
+    <div class="partnership-card available" data-platform="emola">
+        <span class="availability-badge badge-available">Disponível em Moçambique</span>
+        <div class="platform-logo emola text-center">
+            <img src="img\E-mola.jpeg" alt="E-Mola Logo" style="width:80px; height:auto; margin-bottom:10px;">
+        </div>
+        <h3 class="platform-title">E-Mola</h3>
+        <p class="platform-description">Carteira móvel muito utilizada em Moçambique. Facilita transações e pagamentos para seus clientes.</p>
+        
+        <div class="platform-stats">
+            <div class="stat-item">
+                <span class="stat-label">Usuários Ativos:</span>
+                <span class="stat-value">3.2M+</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Transações Mensais:</span>
+                <span class="stat-value">45M+</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Taxa de Integração:</span>
+                <span class="stat-value">2.8%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal M-Pesa -->
+    <div class="modal fade" id="mpesaModal" tabindex="-1" aria-labelledby="mpesaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mpesaModalLabel"><i class="fas fa-mobile-alt me-2"></i>Integração M-Pesa</h5>
+                    <button type="button" class="btn-close close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Benefícios da Integração:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Pagamentos instantâneos</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Taxa competitiva de 2.5%</li>
+                                <li><i class="fas fa-check text-success me-2"></i>API segura e confiável</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Suporte 24/7</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Relatórios detalhados</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Requisitos Técnicos:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-code text-primary me-2"></i>HTTPS obrigatório</li>
+                                <li><i class="fas fa-code text-primary me-2"></i>Webhook para confirmações</li>
+                                <li><i class="fas fa-code text-primary me-2"></i>Token de autenticação</li>
+                                <li><i class="fas fa-code text-primary me-2"></i>Validação de transações</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Documentação:</strong> Nossa equipe técnica fornecerá toda a documentação necessária e suporte durante o processo de integração.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Solicitar Integração</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal E-Mola -->
+    <div class="modal fade" id="emolaModal" tabindex="-1" aria-labelledby="emolaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="emolaModalLabel"><i class="fas fa-wallet me-2"></i>Integração E-Mola</h5>
+                    <button type="button" class="btn-close close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Benefícios da Integração:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Processamento rápido</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Taxa de 2.8%</li>
+                                <li><i class="fas fa-check text-success me-2"></i>SDK nativo disponível</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Dashboard analítico</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Reconciliação automática</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold mb-3">Processo de Integração:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-step-forward text-warning me-2"></i>Cadastro na plataforma</li>
+                                <li><i class="fas fa-step-forward text-warning me-2"></i>Validação de documentos</li>
+                                <li><i class="fas fa-step-forward text-warning me-2"></i>Configuração técnica</li>
+                                <li><i class="fas fa-step-forward text-warning me-2"></i>Testes em sandbox</li>
+                                <li><i class="fas fa-step-forward text-warning me-2"></i>Go-live</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning mt-3">
+                        <i class="fas fa-clock me-2"></i>
+                        <strong>Tempo de Integração:</strong> O processo completo leva aproximadamente 5-7 dias úteis após a aprovação da documentação.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Solicitar Integração</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="py-5">
+        <!-- ... seu conteúdo de serviços aqui ... -->
+    </section>
+
+    <section class="py-5" style="background: white;">
+        <!-- ... sua tabela de preços aqui ... -->
+    </section>
+
+    <footer class="footer">
+        <div class="container text-center"><p>&copy; 2025 860Pub. Todos os direitos reservados.</p></div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC2f4u23zFNN_z_maM66iycemf77-2Buys",
+  authDomain: "pub-f5372.firebaseapp.com",
+  projectId: "pub-f5372",
+  storageBucket: "pub-f5372.firebasestorage.app",
+  messagingSenderId: "693816443318",
+  appId: "1:693816443318:web:ca2608d68fec5499578117"
+};
+
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ELEMENTOS DO DOM para a navbar dinâmica
+        const loginLink = document.getElementById('login-link');
+        const userMenu = document.getElementById('user-menu');
+        const userNameEl = document.getElementById('userName');
+        const logoutButton = document.getElementById('logoutButton');
+
+        // Verifica o estado de autenticação para customizar a navbar
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // Usuário está logado
+                loginLink.style.display = 'none'; // Esconde o botão "Entrar"
+                userMenu.style.display = 'block';  // Mostra o menu do usuário
+
+                // Busca o nome do usuário no Firestore
+                try {
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    if (userDoc.exists) {
+                        userNameEl.textContent = userDoc.data().name || 'Usuário';
+                    } else {
+                        userNameEl.textContent = 'Usuário';
+                    }
+                } catch (error) {
+                    console.error("Erro ao buscar nome do usuário:", error);
+                    userNameEl.textContent = 'Usuário';
+                }
+
+            } else {
+                // Usuário NÃO está logado
+                loginLink.style.display = 'block'; // Mostra o botão "Entrar"
+                userMenu.style.display = 'none';   // Esconde o menu do usuário
+            }
+        });
+
+        // Adiciona funcionalidade ao botão de Logout
+        logoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            auth.signOut().catch((error) => console.error('Erro ao sair:', error));
+            // O onAuthStateChanged vai detetar a saída e atualizar a UI automaticamente.
+        });
+
+        // Funcionalidade adicional para os cards de parceria
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adicionar efeito de hover nos cards
+            const partnershipCards = document.querySelectorAll('.partnership-card');
+            
+            partnershipCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Funcionalidade dos botões de integração
+            const integrationButtons = document.querySelectorAll('.btn-partnership:not([disabled])');
+            
+            integrationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const platform = this.closest('.partnership-card').dataset.platform;
+                    console.log(`Solicitando integração com ${platform}`);
+                    
+                    // Aqui você pode adicionar lógica adicional para processar a solicitação
+                    // Por exemplo, salvar no Firebase, enviar email, etc.
+                });
+            });
+
+            // Animação de entrada dos cards
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Aplicar animação inicial e observar cards
+            partnershipCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+
+        // Função para simular solicitação de integração
+        function requestIntegration(platform) {
+            // Verificar se usuário está logado
+            if (!auth.currentUser) {
+                alert('Por favor, faça login para solicitar integração.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Aqui você adicionaria a lógica para salvar a solicitação no Firebase
+            const integrationRequest = {
+                userId: auth.currentUser.uid,
+                platform: platform,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'pending'
+            };
+
+            db.collection('integration_requests').add(integrationRequest)
+                .then(() => {
+                    alert('Solicitação de integração enviada com sucesso! Nossa equipe entrará em contato em breve.');
+                })
+                .catch((error) => {
+                    console.error('Erro ao enviar solicitação:', error);
+                    alert('Erro ao enviar solicitação. Tente novamente.');
+                });
+        }
+
+        // Adicionar event listeners aos botões dos modais
+        document.addEventListener('DOMContentLoaded', function() {
+            const mpesaIntegrationBtn = document.querySelector('#mpesaModal .btn-primary');
+            const emolaIntegrationBtn = document.querySelector('#emolaModal .btn-primary');
+
+            if (mpesaIntegrationBtn) {
+                mpesaIntegrationBtn.addEventListener('click', () => requestIntegration('mpesa'));
+            }
+
+            if (emolaIntegrationBtn) {
+                emolaIntegrationBtn.addEventListener('click', () => requestIntegration('emola'));
+            }
+        });
+    </script>
+</body>
+</html>
