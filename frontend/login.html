@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+    <link rel="icon" type="image/jpeg" href="img/LOGOTIPO 860 ORIGINAL 2025.jpg">
     
     <style>
         :root {
@@ -169,6 +169,23 @@
             .auth-left { display: none; }
             .auth-container { margin: 1rem; }
         }
+
+.logo-img {
+  height: 100px; /* ajusta o tamanho conforme necessário */
+  width: auto;   /* mantém a proporção */
+  object-fit: contain;
+  cursor: pointer;
+  animation: heartbeat 2.5s infinite ease-in-out; /* animação infinita */
+}
+
+/* animação batimento */
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.1); }
+  40%  { transform: scale(0.95); }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
     </style>
 </head>
 <body>
@@ -181,7 +198,13 @@
                         <div class="col-md-5">
                             <div class="auth-left h-100">
                                 <a href="index.html" class="back-link text-decoration-none text-white"><i class="fas fa-arrow-left me-2"></i>Voltar ao início</a>
-                                <div class="brand-logo"><i class="fas fa-bullhorn me-2"></i>860Pub</div>
+                                <div class="brand-logo">
+  <a href="index.html">
+    <img src= "img/bg-remover-LOGOTIPO 860 ORIGINAL 2025.png" 
+         alt="860Pub Logotipo" 
+         class="logo-img">
+  </a>
+</div>
                                 <h3 class="mb-3">Plataforma de Anúncios</h3>
                                 <p class="mb-4">Conectamos empresas ao seu público-alvo.</p>
                             </div>
@@ -240,7 +263,7 @@
                                         <p>Precisa de ajuda?</p>
                                         <div class="social-icons">
                                             <a href="https://wa.me/258840134955" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                                            <a href="https://t.me/yradjavs" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                                            <a href="https://t.me/+hxg-kCr6ky05Yjg0" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
                                             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=860pubspprt@gmail.com" target="_blank" rel="noopener"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a>
                                         </div>
                                     </div>

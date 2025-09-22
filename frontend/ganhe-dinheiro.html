@@ -9,7 +9,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+<link rel="icon" type="image/jpeg" href="img/LOGOTIPO 860 ORIGINAL 2025.jpg">
 
 <style>
     #loader {
@@ -76,13 +76,14 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="index.html" style="font-size: 1.8rem; color: var(--primary-color);"><i class="fas fa-bullhorn me-2"></i>860Pub</a>
+        <a class="navbar-brand fw-bold" href="index.html" style="font-size: 1.8rem; color: var(--primary-color);"><i></i>860PUB</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre Nós</a></li>
+                <li class="nav-item"><a class="nav-link" href="venda.html">Vendas 860PUB</a></li>
                 <li class="nav-item"><a class="nav-link" href="parcerias.html">Parcerias Comerciais</a></li>
                 <li class="nav-item"><a class="nav-link active" href="ganhe-dinheiro.html">Ganhe Dinheiro</a></li>
                 <li class="nav-item dropdown">
@@ -117,16 +118,100 @@
         </div>
 
         <div class="inquerito-container mx-auto" style="max-width: 700px;">
-            <!-- Formulário do Inquérito -->
-            <div id="inquerito-form" style="display: none;">
-                <form id="surveyForm">
-                    <div class="mb-4"><label class="form-label">1. Você usa redes sociais?</label><div><input type="radio" class="form-check-input" name="usa_redes" id="usa_sim" value="sim" required><label class="form-check-label" for="usa_sim">Sim</label></div><div><input type="radio" class="form-check-input" name="usa_redes" id="usa_nao" value="nao"><label class="form-check-label" for="usa_nao">Não</label></div></div>
-                    <div class="mb-4"><label class="form-label">2. Qual(is) das redes sociais você mais usa?</label><div><input type="checkbox" class="form-check-input" name="redes_usadas" value="Facebook"><label class="form-check-label">Facebook</label></div><div><input type="checkbox" class="form-check-input" name="redes_usadas" value="Instagram"><label class="form-check-label">Instagram</label></div><div><input type="checkbox" class="form-check-input" name="redes_usadas" value="TikTok"><label class="form-check-label">TikTok</label></div><div><input type="checkbox" class="form-check-input" name="redes_usadas" value="YouTube"><label class="form-check-label">YouTube</label></div></div>
-                    <div class="mb-4"><label for="tempo_uso" class="form-label">3. Há quanto tempo você usa a sua principal rede social?</label><select id="tempo_uso" class="form-select" required><option value="" selected disabled>Selecione uma opção</option><option value="menos_1_ano">Menos de 1 ano</option><option value="1_a_3_anos">Entre 1 e 3 anos</option><option value="3_a_5_anos">Entre 3 e 5 anos</option><option value="mais_5_anos">Mais de 5 anos</option></select></div>
-                    <div class="mb-4"><label class="form-label">4. Você já ganhou dinheiro online?</label><div><input type="radio" class="form-check-input" name="ganhou_dinheiro" id="ganhou_sim" value="sim" required><label class="form-check-label" for="ganhou_sim">Sim</label></div><div><input type="radio" class="form-check-input" name="ganhou_dinheiro" id="ganhou_nao" value="nao"><label class="form-check-label" for="ganhou_nao">Não</label></div></div>
-                    <div class="mb-4"><label for="regiao" class="form-label">5. Qual é a sua província?</label><select id="regiao" class="form-select" required><option value="" selected disabled>Selecione sua província</option><option value="maputo_cidade">Maputo (Cidade)</option><option value="maputo_provincia">Maputo (Província)</option><option value="gaza">Gaza</option><option value="inhambane">Inhambane</option><option value="sofala">Sofala</option><option value="manica">Manica</option><option value="tete">Tete</option><option value="zambezia">Zambézia</option><option value="nampula">Nampula</option><option value="cabo_delgado">Cabo Delgado</option><option value="niassa">Niassa</option></select></div>
-                    <button type="submit" class="btn btn-primary btn-lg w-100">Finalizar e Ganhar 25 MZN</button>
-                </form>
+            <!-- Formulário do Inquérito Atualizado -->
+<div id="inquerito-form" style="display: none;">
+    <form id="surveyForm">
+        <!-- Pergunta 1 -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">1. Você usa redes sociais?</label>
+            <div>
+                <input type="radio" class="form-check-input" name="usa_redes" id="usa_sim" value="sim" required>
+                <label class="form-check-label" for="usa_sim">Sim</label>
+            </div>
+            <div>
+                <input type="radio" class="form-check-input" name="usa_redes" id="usa_nao" value="nao">
+                <label class="form-check-label" for="usa_nao">Não</label>
+            </div>
+        </div>
+
+        <!-- Pergunta 2 -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">2. Qual(is) das redes sociais você mais usa?</label>
+            <div><input type="checkbox" class="form-check-input" name="redes_usadas" value="Facebook"><label class="form-check-label ms-2">Facebook</label></div>
+            <div><input type="checkbox" class="form-check-input" name="redes_usadas" value="Instagram"><label class="form-check-label ms-2">Instagram</label></div>
+            <div><input type="checkbox" class="form-check-input" name="redes_usadas" value="TikTok"><label class="form-check-label ms-2">TikTok</label></div>
+            <div><input type="checkbox" class="form-check-input" name="redes_usadas" value="YouTube"><label class="form-check-label ms-2">YouTube</label></div>
+        </div>
+
+        <!-- Pergunta 3 -->
+        <div class="mb-4">
+            <label for="tempo_uso" class="form-label fw-bold">3. Há quanto tempo você usa a sua principal rede social?</label>
+            <select id="tempo_uso" class="form-select" required>
+                <option value="" selected disabled>Selecione uma opção</option>
+                <option value="menos_1_ano">Menos de 1 ano</option>
+                <option value="1_a_3_anos">Entre 1 e 3 anos</option>
+                <option value="3_a_5_anos">Entre 3 e 5 anos</option>
+                <option value="mais_5_anos">Mais de 5 anos</option>
+            </select>
+        </div>
+
+        <!-- Pergunta 4 -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">4. Você já ganhou dinheiro online?</label>
+            <div>
+                <input type="radio" class="form-check-input" name="ganhou_dinheiro" id="ganhou_sim" value="sim" required>
+                <label class="form-check-label" for="ganhou_sim">Sim</label>
+            </div>
+            <div>
+                <input type="radio" class="form-check-input" name="ganhou_dinheiro" id="ganhou_nao" value="nao">
+                <label class="form-check-label" for="ganhou_nao">Não</label>
+            </div>
+        </div>
+
+        <!-- Pergunta 5 -->
+        <div class="mb-4">
+            <label for="regiao" class="form-label fw-bold">5. Qual é a sua província?</label>
+            <select id="regiao" class="form-select" required>
+                <option value="" selected disabled>Selecione sua província</option>
+                <option value="maputo_cidade">Maputo (Cidade)</option>
+                <option value="maputo_provincia">Maputo (Província)</option>
+                <option value="gaza">Gaza</option>
+                <option value="inhambane">Inhambane</option>
+                <option value="sofala">Sofala</option>
+                <option value="manica">Manica</option>
+                <option value="tete">Tete</option>
+                <option value="zambezia">Zambézia</option>
+                <option value="nampula">Nampula</option>
+                <option value="cabo_delgado">Cabo Delgado</option>
+                <option value="niassa">Niassa</option>
+            </select>
+        </div>
+        
+        <!-- ============================================= -->
+        <!-- ==        NOVA SEÇÃO 6 ADICIONADA          == -->
+        <!-- ============================================= -->
+        <div class="mb-4 p-3 border rounded bg-light">
+            <label class="form-label fw-bold d-block">6. Siga nossa página no Facebook para concluir!</label>
+            <p class="small text-muted">Clique no link abaixo para seguir nossa página. Depois, marque a caixa de confirmação para liberar o botão de finalizar.</p>
+            
+            <a href="https://www.facebook.com/people/860-PUB/61572906622385/" 
+               target="_blank" 
+               class="btn btn-primary mb-3" 
+               id="followFacebookLink">
+                <i class="fab fa-facebook-f me-2"></i>Seguir 860 PUB no Facebook
+            </a>
+            
+            <div class="form-check" id="confirmationCheckboxContainer" style="display: none;">
+                <input class="form-check-input" type="checkbox" value="" id="followedCheckbox" required>
+                <label class="form-check-label fw-bold" for="followedCheckbox">
+                    Já segui a página!
+                </label>
+            </div>
+        </div>
+        <!-- ============================================= -->
+
+        <button type="submit" id="submitSurveyButton" class="btn btn-primary btn-lg w-100" disabled>Finalizar e Ganhar 25 MZN</button>
+    </form>
             </div>
             
             <!-- Mensagem de agradecimento/conclusão -->
@@ -238,6 +323,31 @@ const firebaseConfig = {
     logoutButton.addEventListener('click', (e) => {
         e.preventDefault();
         auth.signOut().then(() => { window.location.href = 'login.html'; });
+    });
+
+     // Adicione este script ao seu JavaScript principal ou no final do body
+    document.addEventListener('DOMContentLoaded', () => {
+        const followLink = document.getElementById('followFacebookLink');
+        const confirmationContainer = document.getElementById('confirmationCheckboxContainer');
+        const followedCheckbox = document.getElementById('followedCheckbox');
+        const submitButton = document.getElementById('submitSurveyButton');
+
+        // 1. Quando o link do Facebook for clicado, mostra a caixa de confirmação
+        followLink.addEventListener('click', () => {
+            // Usamos um pequeno timeout para garantir que a nova aba tenha tempo de abrir
+            setTimeout(() => {
+                confirmationContainer.style.display = 'block';
+            }, 500);
+        });
+
+        // 2. Quando a caixa de confirmação for marcada/desmarcada, verifica se o botão deve ser ativado
+        followedCheckbox.addEventListener('change', () => {
+            if (followedCheckbox.checked) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        });
     });
 </script>
 </body>

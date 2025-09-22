@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+    <link rel="icon" type="image/jpeg" href="img/LOGOTIPO 860 ORIGINAL 2025.jpg">
     
     <style>
         :root {
@@ -80,19 +80,62 @@
         .social-icons a { color: var(--dark-color); font-size: 1.5rem; margin: 0 10px; transition: color 0.3s; }
         .social-icons a:hover { color: var(--primary-color); }
         .footer { background: var(--dark-color); color: white; padding: 40px 0 20px; }
+
+        .sobre-nos {  height: 400px; /* ajusta o tamanho conforme necessário */
+  width: 100;   /* mantém a proporção */
+  object-fit: contain;
+  cursor: pointer;
+  animation: heartbeat 2.5s infinite ease-in-out; /* animação infinita */
+}
+
+/* animação batimento */
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.1); }
+  40%  { transform: scale(0.95); }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Animação de batimento de coração */
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Classe para aplicar o efeito */
+.heartbeat {
+  display: inline-block;
+  animation: heartbeat 2s infinite; /* 2s = batimento lento */
+  transform-origin: center;
+}
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="fas fa-bullhorn me-2"></i>860Pub</a>
+            <a class="navbar-brand fw-bold heartbeat" href="index.html"><i></i>860PUB</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="sobre.html">Sobre Nós</a></li>
+                     <li class="nav-item"><a class="nav-link active" href="venda.html">Vendas 860PUB</a></li>
                     <li class="nav-item"><a class="nav-link" href="parcerias.html">Parcerias Comerciais</a></li>
                     <li class="nav-item"><a class="nav-link" href="ganhe-dinheiro.html">Ganhe Dinheiro</a></li>
                     <!-- Menu dinâmico: Login ou Perfil do Usuário -->
@@ -126,12 +169,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <h2 class="fw-bold" style="color: var(--dark-color);">PROJECTO 860Pub: A Sua Plataforma de Vendas de Anúncios</h2>
+                    <h2 class="fw-bold" style="color: var(--dark-color);">PROJECTO 860PUB: A SUA PLATAFORMA DE VENDAS DE ANÚNCIOS</h2>
                     <p class="text-muted">A 860Pub é uma empresa especializada na criação, gestão e venda de espaços publicitários, oferecendo soluções estratégicas para marcas que desejam aumentar sua visibilidade, alcançar mais clientes e gerar vendas.</p>
                     <p class="text-muted">Nosso foco é conectar empresas ao seu público-alvo através de anúncios digitais de alta performance em mídias sociais, como Instagram, Facebook e TikTok. Transformamos dados em estratégia e cliques em clientes.</p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2274&q=80" alt="Equipe em reunião" class="img-fluid rounded-3 shadow">
+                    <img src="img/tela sobre nós.jpg" alt="Equipe em reunião" class="sobre-nos">
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@
         <link
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             rel="stylesheet">
-            <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+            <link rel="icon" type="image/jpeg" href="img/LOGOTIPO 860 ORIGINAL 2025.jpg">
 
 
         <style>
@@ -36,43 +36,62 @@
         .btn-custom:hover { background: #e0a800; transform: translateY(-2px); color: var(--dark-color); }
         .footer { background: var(--dark-color); color: white; padding: 40px 0; }
         .device-image { max-width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+        /* Animação de batimento */
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+}
+
+/* Aplica a animação ao link inteiro */
+.navbar-brand-heartbeat {
+  display: inline-block;
+  animation: heartbeat 2s infinite;
+}
     </style>
     </head>
     <body>
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap:8px;">
-            <!-- Ícone do gráfico -->
-            <div style="display:flex; align-items:flex-end; gap:2px;">
-                <div style="width:6px; height:14px; background:#fff;"></div>
-                <div style="width:6px; height:20px; background:#fff;"></div>
-                <div style="width:6px; height:26px; background:#fff; position:relative;">
-                    <div style="position:absolute; top:-10px; left:3px; width:2px; height:12px; background:#fff; transform:rotate(-45deg);"></div>
-                </div>
-            </div>
-            <!-- Texto -->
-            <span style="font-size:1.2rem; font-weight:bold; color:white;">860</span>
-            <span style="font-size:1.2rem; font-weight:bold; color:white;">PUB</span>
-        </a>
+    
+<a class="navbar-brand d-flex align-items-center navbar-brand-heartbeat" href="index.html" style="gap:8px;">
+  <!-- Logo em imagem -->
+  <img src="img/LOGOTIPO 860 ORIGINAL 2025.jpg" alt="860 PUB" class="logo-img">
+</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul id="main-nav-links" class="navbar-nav ms-auto">
-                <!-- Links dinâmicos -->
-            </ul>
-        </div>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul id="main-nav-links" class="navbar-nav ms-auto">
+            <!-- Links dinâmicos -->
+        </ul>
     </div>
+</div>
 </nav>
 
 <style>
 .navbar {
     background-color: #003366 !important; /* fundo azul igual ao da logo */
 }
+
+.logo-img {
+    height: 50px;       /* controla altura do logo */
+    object-fit: contain; /* garante que não distorça */
+}
 </style>
+
 
 
         <!-- Hero Section -->
@@ -93,7 +112,7 @@
                     </div>
                     <div class="col-lg-6">
                         <img
-                            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80"
+                            src="img/tela inicial.jpg"
                             alt="Anúncios Digitais" class="device-image">
                     </div>
                 </div>

@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="icon" type="image/jpeg" href="frontend/img/LOGOTIPO 860 ORIGINAL 2025.jpg">
+    <link rel="icon" type="image/jpeg" href="img/LOGOTIPO 860 ORIGINAL 2025.jpg">
     
     <style>
         :root {
@@ -283,19 +283,55 @@
                 margin-bottom: 30px;
             }
         }
+
+            /* animação batimento */
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.1); }
+  40%  { transform: scale(0.95); }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Animação de batimento de coração */
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Classe para aplicar o efeito */
+.heartbeat {
+  display: inline-block;
+  animation: heartbeat 2s infinite; /* 2s = batimento lento */
+  transform-origin: center;
+}
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="fas fa-bullhorn me-2"></i>860Pub</a>
+            <a class="navbar-brand fw-bold heartbeat" href="index.html"><i></i>860PUB</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre Nós</a></li>
+                     <li class="nav-item"><a class="nav-link active" href="venda.html">Vendas 860PUB</a></li>
                     <li class="nav-item"><a class="nav-link active" href="parcerias.html">Parcerias Comerciais</a></li>
                     <li class="nav-item"><a class="nav-link" href="ganhe-dinheiro.html">Ganhe Dinheiro</a></li>
                     <!-- Menu dinâmico: Login ou Perfil do Usuário -->
@@ -434,15 +470,15 @@
         <div class="platform-stats">
             <div class="stat-item">
                 <span class="stat-label">Usuários Ativos:</span>
-                <span class="stat-value">8.5M+</span>
+                <span class="stat-value">208K+</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">Transações Mensais:</span>
-                <span class="stat-value">120M+</span>
+                <span class="stat-value">1.2M+</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">Taxa de Integração:</span>
-                <span class="stat-value">2.5%</span>
+                <span class="stat-value">1.5%</span>
             </div>
         </div>
     </div>
@@ -461,15 +497,15 @@
         <div class="platform-stats">
             <div class="stat-item">
                 <span class="stat-label">Usuários Ativos:</span>
-                <span class="stat-value">3.2M+</span>
+                <span class="stat-value">398K+</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">Transações Mensais:</span>
-                <span class="stat-value">45M+</span>
+                <span class="stat-value">2.1M+</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">Taxa de Integração:</span>
-                <span class="stat-value">2.8%</span>
+                <span class="stat-value">3.8%</span>
             </div>
         </div>
     </div>
